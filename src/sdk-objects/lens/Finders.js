@@ -1,5 +1,5 @@
 import equals from 'deep-equal'
-import {FinderFailedOnCompile} from "../../Errors";
+import {FinderFailedOnCompile, InvalidFinder} from "../../Errors";
 
 //Options
 const optionsSchema = {
@@ -13,9 +13,25 @@ const defaultOptions = {
 	occurrence: 0
 }
 
-function finderFactory(type, value, options) {
-	//@todo validate options here
-	return (candidates) => {
+const allowedTypes = ['token', 'literal', 'object-literal', 'array-literal']
+
+
+class Finder {
+	constructor(type, value, options) {
+
+		const validType = allowedTypes.includes(type)
+		if (!validType) {
+			throw InvalidFinder('type', `one of ${allowedTypes.toString()}`)
+		}
+
+		//@todo validate options
+
+		this._type = type
+		this._value = value
+		this._options = options
+	}
+
+	evaluate(candidates) {
 		const found = candidates.filter(i=> {
 			i.type === type && equals(i.value === value)
 		})[options.occurrence]
@@ -25,22 +41,23 @@ function finderFactory(type, value, options) {
 			throw FinderFailedOnCompile(type, value)
 		}
 	}
+
 }
 
 
 //Finders
 export function tokenWithValue(string, options = defaultOptions) {
-	return finderFactory('token', string, options)
+	return new Finder('token', string, options)
 }
 
 export function literalWithValue(any, options = defaultOptions) {
-	return finderFactory('literal', any, options)
+	return new Finder('literal', any, options)
 }
 
 export function objectWithValue(obj, options = defaultOptions) {
-	return finderFactory('object-literal', obj, options)
+	return new Finder('object-literal', obj, options)
 }
 
 export function arrayWithValue(arr, options = defaultOptions) {
-	return finderFactory('array-literal', arr, options)
+	return new Finder('array-literal', arr, options)
 }

@@ -4,7 +4,7 @@ import {IncorrectArgumentType} from "../../../Errors";
 import {Snippet} from "../Snippet";
 import {Schema} from "../../schema/Schema";
 
-describe.only('lens sdk-object', ()=> {
+describe('lens sdk-object', ()=> {
 	const lens = new Lens()
 
 	function testSetter(key, value) {

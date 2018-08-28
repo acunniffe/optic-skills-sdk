@@ -15,3 +15,12 @@ export function FinderFailedOnCompile(type, value, level = 'error') {
 		isError: true
 	}
 }
+
+export function InvalidFinder(key, expectedType, level = 'error') {
+	return {
+		level,
+		type: 'InvalidFinder',
+		message: `Finder ${key} should be ${expectedType}`,
+		isError: true
+	}
+}

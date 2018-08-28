@@ -15,6 +15,8 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
-    "ajv": "^6.5.2"
+    "ajv": "^6.5.2",
+    "nice-try": "^1.0.4",
+    "sync-exec": "^0.6.2"
   }
 }
