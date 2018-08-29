@@ -1,9 +1,11 @@
 import Ajv from 'ajv'
 const ajv = new Ajv();
-import {IncorrectArgumentType} from "../../Errors";
+import {ContainerNotFoundInSnippet, IncorrectArgumentType, InvalidLensDefinition} from "../../Errors";
 import {idRegex, validatePackageName} from "../../Regexes";
 import {Snippet} from "./Snippet";
 import {Schema} from "../schema/Schema";
+import {TrainLens} from "../bridge/LensBridge";
+import {Finder} from "./Finders";
 
 const lensJSONValidation = {
 	"type": "object",
@@ -86,7 +88,7 @@ export class Lens {
 		this._snippet;
 		this._value = {}
 		this._variables = {};
-		this._containers;
+		this._containers = {};
 		this._schema;
 		this._initialValue = {};
 		this._priority = 1;
@@ -243,5 +245,46 @@ export class Lens {
 	}
 
 
+	//processing code
+	async resolve() {
+		const trainingResponse = await TrainLens(this.snippet.language, this.snippet.block)
+
+		const schemaFields = {}
+
+		//handle value assignment only when finder involved
+		const finderValues = Object.entries(this._value).filter(i=> i[1] instanceof Finder)
+		finderValues.forEach(fPair => {
+			const key = fPair[0]
+			const finder = fPair[1]
+			const finderResult = finder.evaluate(trainingResponse.trainingResults.candidates)
+			schemaFields[key] = {...finderResult.schemaField, ...finder.options.rules}
+			this.value[key] = finderResult.stagedComponent.component
+		})
+
+		//build the schema
+		if (!this._schema) {
+			this._schema = new Schema(
+				null,
+				{
+					title: this._name,
+					type: 'object',
+					required: Object.entries(this._value).map(i=> i[0]),
+					properties: schemaFields
+				}
+			)
+		}
+
+		return this
+	}
+
+	async lensDescription() {
+		const lensFinal = await this.resolve()
+		const isValid = ajv.validate(lensJSONValidation, lensFinal)
+		if (!isValid) {
+			throw new InvalidLensDefinition(ajv.errors.map(i=> i.message).join(', '))
+		}
+
+		return lensFinal
+	}
 
 }

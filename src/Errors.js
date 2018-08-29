@@ -1,3 +1,4 @@
+import packageJson from '../package'
 export function IncorrectArgumentType(value, expectedType, level = 'error') {
 	return {
 		level,
@@ -24,3 +25,49 @@ export function InvalidFinder(key, expectedType, level = 'error') {
 		isError: true
 	}
 }
+
+export function OpticNotInstalled() {
+	return {
+		level: 'error',
+		type: 'OpticNotInstalled',
+		message: `Optic installation not found`,
+		isError: true
+	}
+}
+
+export function OpticNotRunning() {
+	return {
+		level: 'error',
+		type: 'OpticNotRunning',
+		message: `Optic is not running. Run 'optic startserver'`,
+		isError: true
+	}
+}
+
+export function OpticVersionNotSupported(supported) {
+	return {
+		level: 'error',
+		type: 'OpticVersionNotSupported',
+		message: `This version of the SDK (${packageJson.version}) is not supported by your Optic backend (only supports ${supported}). Update the SDK or backend and try again.`,
+		isError: true
+	}
+}
+
+export function ContainerNotFoundInSnippet(name) {
+	return {
+		level: 'error',
+		type: 'ContainerNotFoundInSnippet',
+		message: `Container '${name} was not found in the snippet'`,
+		isError: true
+	}
+}
+
+export function InvalidLensDefinition(errors) {
+	return {
+		level: 'error',
+		type: 'InvalidLensDefinition',
+		message: `Invalid lens definition: ${errors}`,
+		isError: true
+	}
+}
+

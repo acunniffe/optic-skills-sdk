@@ -5,18 +5,22 @@ import {FinderFailedOnCompile, InvalidFinder} from "../../Errors";
 const optionsSchema = {
 	type: 'object',
 	properties: {
-		occurrence: {type: 'number'}
+		occurrence: {type: 'number'},
+		rules: {
+			type: 'object'
+		}
 	}
 }
 
 const defaultOptions = {
-	occurrence: 0
+	occurrence: 0,
+	rules: {}
 }
 
 const allowedTypes = ['token', 'literal', 'object-literal', 'array-literal']
 
 
-class Finder {
+export class Finder {
 	constructor(type, value, options) {
 
 		const validType = allowedTypes.includes(type)
@@ -29,16 +33,22 @@ class Finder {
 		this._type = type
 		this._value = value
 		this._options = options
+
 	}
 
+	get options() {
+		return this._options
+	}
+	
 	evaluate(candidates) {
 		const found = candidates.filter(i=> {
-			i.type === type && equals(i.value === value)
-		})[options.occurrence]
+			return i.stagedComponent.component.type === this._type &&
+				(equals(i.value, this._value))
+		})[this._options.occurrence]
 		if (found) {
 			return found
 		} else {
-			throw FinderFailedOnCompile(type, value)
+			throw FinderFailedOnCompile(this._type, this._value)
 		}
 	}
 

@@ -1,5 +1,6 @@
 export class Schema {
-	constructor() {
-
+	constructor(id, definition) {
+		this.id = id
+		this.definition = definition
 	}
 }

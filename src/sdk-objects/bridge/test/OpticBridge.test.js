@@ -1,8 +1,8 @@
 import assert from 'assert'
 import {isInstalledOnPath} from "../Helpers";
-import {opticServerIsRunning} from "../OpticBridge";
+import {opticServerIsRunning, preCheck} from "../OpticBridge";
 
-describe.only('optic bridge', ()=> {
+describe('optic bridge', ()=> {
 	describe('pre-flight assertions', ()=> {
 		it('can find cli if installed', ()=> {
 			assert(isInstalledOnPath('ls') === '/bin/ls') //use something we know exists
@@ -11,9 +11,9 @@ describe.only('optic bridge', ()=> {
 		it('will return falsey if no cli found', ()=> {
 			assert(!isInstalledOnPath('abcdefg'))
 		})
-
-		it('knows if an optic server is not running', ()=> {
-			assert(!opticServerIsRunning())
-		})
+		//
+		// it.only('can run precheck', ()=> {
+		// 	preCheck()
+		// })
 	})
 })
