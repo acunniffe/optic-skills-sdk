@@ -33,7 +33,7 @@ req.query.name
 }
 
 
-describe.only('lens bridge', () => {
+describe('lens bridge', () => {
 	it('can process a lens', (done) => {
 		const request = TrainLens('es7', 'const name = require("path")')
 		request.then(response => {

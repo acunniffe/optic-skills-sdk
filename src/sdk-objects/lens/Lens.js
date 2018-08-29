@@ -279,12 +279,24 @@ export class Lens {
 
 	async lensDescription() {
 		const lensFinal = await this.resolve()
-		const isValid = ajv.validate(lensJSONValidation, lensFinal)
+		const description = {
+			name: this._name,
+			id: this._id,
+			snippet: this._snippet,
+			value: this._value,
+			variables: this._variables,
+			containers: this._containers,
+			schema: this._schema,
+			initialValue: this._initialValue,
+			priority: this._priority,
+			internal: this._internal
+		}
+		const isValid = ajv.validate(lensJSONValidation, description)
 		if (!isValid) {
 			throw new InvalidLensDefinition(ajv.errors.map(i=> i.message).join(', '))
 		}
 
-		return lensFinal
+		return description
 	}
 
 }
