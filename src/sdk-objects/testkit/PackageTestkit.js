@@ -8,7 +8,12 @@ export function PackageTestKit(p) {
 	const packageDescription = p.packageDescription()
 
 	return {
-		lenses: packageDescription.lenses.map(i=> new LensTestKit(i, packageDescription))
+		lenses: (() => {
+			const pairs = packageDescription.lenses.map(i=> [i.id, new LensTestKit(i, packageDescription)])
+			const lensesObj = {}
+			pairs.forEach(pair => lensesObj[pair[0]] = pair[1])
+			return lensesObj
+		})()
 	}
 
 }

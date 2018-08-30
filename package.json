@@ -15,7 +15,7 @@
     "mocha": "^3.4.2"
   },
   "dependencies": {
-    "ajv": "^6.5.2",
+    "ajv": "^5.2.2",
     "deep-equal": "^1.0.1",
     "nice-try": "^1.0.4",
     "regenerator-runtime": "^0.12.1",

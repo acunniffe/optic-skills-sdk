@@ -71,3 +71,12 @@ export function InvalidLensDefinition(errors) {
 	}
 }
 
+export function InvalidSchemaDefinition(errors) {
+	return {
+		level: 'error',
+		type: 'InvalidSchemaDefinition',
+		message: `Invalid schema definition: ${errors}`,
+		isError: true
+	}
+}
+

@@ -20,7 +20,7 @@ req.query.name
 
 describe('package declaration', (done) => {
 
-	it.only('will process async', (done) => {
+	it('will process async', (done) => {
 		const testPackage = Package('test', 'test', '0.1.0', {
 			lenses: [validLensFixture()]
 		})
