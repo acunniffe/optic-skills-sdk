@@ -80,3 +80,12 @@ export function InvalidSchemaDefinition(errors) {
 	}
 }
 
+export function LensNotFoundInPackage(id) {
+	return {
+		level: 'error',
+		type: 'LensNotFoundInPackage',
+		message: `Lens '${id} not found in package`,
+		isError: true
+	}
+}
+

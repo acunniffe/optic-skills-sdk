@@ -1,7 +1,7 @@
 import assert from 'assert'
 import {js} from "../lens/Snippet";
 import {tokenWithValue} from "../lens/Finders";
-import Package from "../Package";
+import Skill from "../Skill";
 
 function validLensFixture() {
 	const lens = js`
@@ -18,13 +18,13 @@ req.query.name
 	return lens;
 }
 
-describe('package declaration', (done) => {
+describe('skill declaration', (done) => {
 
 	it('will process async', (done) => {
-		const testPackage = Package('test', 'test', '0.1.0', {
+		const testSkill = Skill('test', 'test', '0.1.0', {
 			lenses: [validLensFixture()]
 		})
-		const d = testPackage.packageDescription()
+		const d = testSkill.skillsDescription()
 		d.then(i=> {
 			console.log(i)
 			done()

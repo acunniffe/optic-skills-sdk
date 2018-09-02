@@ -21,6 +21,7 @@
     "regenerator-runtime": "^0.12.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
-    "sync-exec": "^0.6.2"
+    "sync-exec": "^0.6.2",
+    "sync-request": "^6.0.0"
   }
 }

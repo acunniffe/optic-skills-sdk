@@ -29,5 +29,4 @@ export class Schema {
 		return this._id
 	}
 
-
 }
