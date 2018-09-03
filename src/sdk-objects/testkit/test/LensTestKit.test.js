@@ -3,7 +3,7 @@ import {skillFixture} from "./SkillTestKit.test";
 import {SkillTestKit} from "../SkillTestkit";
 
 
-describe.only('lens test kit w/ package context', () => {
+describe('lens test kit w/ package context', () => {
 	const packageTestKit = SkillTestKit(skillFixture())
 
 	it('can test generator', (done) => {
@@ -33,8 +33,5 @@ describe.only('lens test kit w/ package context', () => {
 			done()
 		})
 	})
-
-
-
 
 })

@@ -9,6 +9,14 @@ class Skill {
 		this._dependencies = dependencies
 	}
 
+	identifier() {
+		return `${this._author}:${this._package}`
+	}
+
+	identifierWithVersion() {
+		return `${this._author}:${this._package}@${this._version}`
+	}
+
 	async skillsDescription() {
 		const lenses = await Promise.all(this._lenses.map(i => i.lensDescription()))
 		return {

@@ -89,3 +89,12 @@ export function LensNotFoundInPackage(id) {
 	}
 }
 
+export function SkillNotFoundInProject(id) {
+	return {
+		level: 'error',
+		type: 'SkillNotFoundInProject',
+		message: `Skill '${id}' was not found in this project. Make sure it's exported from a file like '*.skill.js'`,
+		isError: true
+	}
+}
+
