@@ -16,7 +16,7 @@ describe('publish', () => {
 		})
 	})
 
-	it.only('publishes locally', (done) => {
+	it('publishes locally', (done) => {
 		publishLocal('aidan:test2', testDir).then(() => {
 			done()
 		})

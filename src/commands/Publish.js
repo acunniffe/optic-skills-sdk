@@ -6,7 +6,35 @@ import mkdirp from 'mkdirp'
 import {packagePath} from "./Constants";
 import fs from 'fs'
 
+export function publishRemote(skill, cwd = process.cwd()) {
+
+}
+
 export function publishLocal(skill, cwd = process.cwd()) {
+
+	const skillPromise = prePublish;
+
+	return skillPromise.then((result) => {
+		const packageDirPath = packagePath()+`${result.info.author}/${result.info.package}/`
+		const withVersionPath = packageDirPath + (result.info.version)
+		return new Promise((resolve, reject) => {
+			mkdirp(packageDirPath, function (err) {
+				fs.writeFile(withVersionPath, JSON.stringify(result), function(err) {
+					if(err) {
+						reject(err)
+					}
+					console.log(`Published locally to ${withVersionPath}`)
+					resolve()
+				});
+			});
+		})
+
+	}, (e) => {
+		console.error('Could not compile skill: '+ e.message)
+	})
+}
+
+function prePublish(skill, cwd = process.cwd()) {
 	const skillObj = (()=> {
 		if (skill) {
 			return findSkill(skill, cwd)
@@ -22,26 +50,7 @@ export function publishLocal(skill, cwd = process.cwd()) {
 
 	console.log(`Compiling skill: ${skillObj.identifierWithVersion()}`)
 
-	const skillPromise = skillObj.skillsDescription()
-
-	return skillPromise.then((result) => {
-		const packageDirPath = packagePath()+`${result.info.author}/${result.info.package}/`
-		const withVersionPath = packageDirPath + (result.info.version)
-		return new Promise((resolve, reject) => {
-			mkdirp(packageDirPath, function (err) {
-				fs.writeFile(withVersionPath, JSON.stringify(result), function(err) {
-					if(err) {
-						reject(err)
-					}
-					console.log(`Published locally to ${withVersionPath}`);
-					resolve()
-				});
-			});
-		})
-
-	}, (e) => {
-		console.error('Could not compile skill: '+ e.message)
-	})
+	return skillObj.skillsDescription()
 }
 
 
