@@ -89,6 +89,25 @@ export function LensNotFoundInPackage(id) {
 	}
 }
 
+export function SchemaNotFoundInPackage(id) {
+	return {
+		level: 'error',
+		type: 'SchemaNotFoundInPackage',
+		message: `Schema '${id} not found in package`,
+		isError: true
+	}
+}
+
+export function TransformationNotFoundInPackage(id) {
+	return {
+		level: 'error',
+		type: 'TransformationNotFoundInPackage',
+		message: `Transformation '${id} not found in package`,
+		isError: true
+	}
+}
+
+
 export function SkillNotFoundInProject(id) {
 	return {
 		level: 'error',

@@ -6,7 +6,7 @@ const ajv = Ajv()
 ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
 
-export class Schema {
+class Schema {
 	constructor(id, definition) {
 
 		if (!validatePackageName(id)) {
@@ -28,5 +28,11 @@ export class Schema {
 	get id() {
 		return this._id
 	}
-
 }
+
+function SchemaFactory(id, definition) {
+	return new Schema(id, definition)
+}
+
+export default SchemaFactory
+

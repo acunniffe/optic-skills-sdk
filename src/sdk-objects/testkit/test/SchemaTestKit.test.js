@@ -1,5 +1,5 @@
 import assert from 'assert'
-import {Schema} from "../../schema/Schema";
+import Schema from "../../schema/Schema";
 import {SchemaTestKit} from "../SchemaTestKit";
 
 describe('schema test kit', () => {

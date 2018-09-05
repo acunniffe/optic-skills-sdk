@@ -1,10 +1,10 @@
 import assert from 'assert'
-import {Schema} from "../Schema";
+import Schema from "../Schema";
 
 describe('schema sdk object', () => {
 	it('will throw on invalid id', () => {
 		try { //for some reason assert.throws isn't working here.
-			new Schema(123, {type: 'string'})
+			Schema(123, {type: 'string'})
 			assert(false)
 		} catch (e) {
 			assert(true)
@@ -13,7 +13,7 @@ describe('schema sdk object', () => {
 
 	it('will throw on an invalid schema', () => {
 		try {
-			new Schema('abcdef', {type: 'abc'})
+			Schema('abcdef', {type: 'abc'})
 			assert(false)
 		} catch (e) {
 			assert(true)
@@ -21,7 +21,15 @@ describe('schema sdk object', () => {
 	})
 
 	it('works with valid schema', () => {
-		new Schema('abcdefg', {type: 'string'})
+		Schema('abcdefg', {type: 'string'})
+
+		Schema('example', {
+			type: 'object',
+			properties: {
+				value1: {type: 'string'},
+				value2: {type: 'string'},
+			}
+		})
 	})
 
 })
