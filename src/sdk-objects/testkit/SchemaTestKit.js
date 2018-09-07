@@ -10,7 +10,7 @@ export class SchemaTestKit {
 		this._schema = schema
 	}
 
-	matches(data) {
+	test(data) {
 		const validate = ajv.compile(this._schema.definition);
 		if (validate(data)) {
 			return {isMatch: true, errors: ajv.errors}

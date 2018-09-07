@@ -1,8 +1,8 @@
 import assert from 'assert'
-import Skill from '../../Skill'
 import {tokenWithValue} from "../../lens/Finders";
 import {js} from "../../lens/Snippet";
 import {SkillTestKit} from "../SkillTestKit";
+import {Skill} from "../../../index";
 
 export function skillFixture() {
 	const lens = js`

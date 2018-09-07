@@ -1,16 +1,17 @@
 //Lens
 export {js, scala, python3} from "./sdk-objects/lens/Snippet";
 export {tokenWithValue, arrayWithValue, literalWithValue, objectWithValue} from "./sdk-objects/lens/Finders";
+export {map, mapUnique, mapToObject} from "./sdk-objects/lens/MapSchema";
 
 //Transformation
 export {Transformation, MultiTransformation, MutationTransformation} from "./sdk-objects/transformations/Transformations";
 export {Ask} from "./sdk-objects/transformations/AskConfig";
 
 //Schemas
-export Schema from "./sdk-objects/schema/Schema";
+export {Schema} from "./sdk-objects/schema/Schema";
 
 //Skills
-export Skill from "./sdk-objects/Skill";
+export {SkillsFactory as Skill} from "./sdk-objects/Skill";
 
 //Test Kits
 export {LensTestKit} from "./sdk-objects/testkit/LensTestKit";

@@ -1,13 +1,13 @@
-import {SkillsClass} from "../Skill";
 import {LensTestKit} from "./LensTestKit";
 import {LensNotFoundInPackage, SchemaNotFoundInPackage, TransformationNotFoundInPackage} from "../../Errors";
 import {SchemaTestKit} from "./SchemaTestKit";
 import {TransformationTestKit} from "./TransformationTestKit";
+import {Skill} from "../Skill";
 
 export function SkillTestKit(p) {
 
 	const buildPromise = (async () => {
-		if (!p instanceof SkillsClass) {
+		if (!p instanceof Skill) {
 			throw new Error('Package Test Kit must be initialized with an instance of Package')
 		}
 

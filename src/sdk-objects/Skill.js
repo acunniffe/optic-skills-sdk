@@ -1,4 +1,5 @@
-class Skill {
+import 'regenerator-runtime/runtime';
+export class Skill {
 	constructor(author, name, version, lenses = [], transformations = [], schemas = [], dependencies = {}) {
 		this._author = author
 		this._package = name
@@ -28,12 +29,12 @@ class Skill {
 			},
 			lenses,
 			schemas: this._schemas.map(i => i.schemaDescription()),
-			transformations: this._schemas.map(i => i.transformationDescription())
+			transformations: this._transformations.map(i => i.transformationDescription())
 		}
 	}
 }
 
-function SkillsFactory(author, name, version, contents) {
+export function SkillsFactory(author, name, version, contents) {
 	return new Skill(
 		author,
 		name,
@@ -43,6 +44,3 @@ function SkillsFactory(author, name, version, contents) {
 		contents.schemas || [],
 		contents.dependencies || {})
 }
-
-export default SkillsFactory
-export const SkillsClass = Skill

@@ -198,6 +198,15 @@ export class Lens {
 	get schema() {
 		return this._schema
 	}
+
+	schemaRef() {
+		if (typeof this._schema === 'string') {
+			return this._schema
+		} else {
+			this._id
+		}
+	}
+
 	set schema(schema) {
 		if (schema instanceof Schema) {
 			this._schema = schema

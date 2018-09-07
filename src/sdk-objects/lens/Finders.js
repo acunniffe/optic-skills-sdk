@@ -39,7 +39,7 @@ export class Finder {
 	get options() {
 		return this._options
 	}
-	
+
 	evaluate(candidates) {
 		const found = candidates.filter(i=> {
 			return i.stagedComponent.component.type === this._type &&
@@ -71,3 +71,4 @@ export function objectWithValue(obj, options = defaultOptions) {
 export function arrayWithValue(arr, options = defaultOptions) {
 	return new Finder('array-literal', arr, options)
 }
+
