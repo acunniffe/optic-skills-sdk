@@ -57,7 +57,6 @@ function prePublish(skill, cwd = process.cwd()) {
 //finding skills in a project
 export function findSkill(skillId, cwd = process.cwd()) {
 	const validSkills = findSkills(cwd)
-	console.log(validSkills)
 	if (!validSkills.hasOwnProperty(skillId)) {
 		throw SkillNotFoundInProject(skillId)
 	}

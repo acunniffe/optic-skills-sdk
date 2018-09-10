@@ -1,7 +1,7 @@
 import assert from 'assert'
 import {js} from "../lens/Snippet";
 import {tokenWithValue} from "../lens/Finders";
-import Skill from "../Skill";
+import {Skill} from "../../index";
 
 function validLensFixture() {
 	const lens = js`
@@ -26,7 +26,6 @@ describe('skill declaration', (done) => {
 		})
 		const d = testSkill.skillsDescription()
 		d.then(i=> {
-			console.log(i)
 			done()
 		})
 	})

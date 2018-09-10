@@ -2,7 +2,7 @@ import assert from 'assert'
 import {Lens} from '../Lens'
 import {IncorrectArgumentType} from "../../../Errors";
 import {Snippet} from "../Snippet";
-import {Schema} from "../../schema/Schema";
+import {Schema} from "../../..";
 
 describe('lens sdk-object', ()=> {
 	const lens = new Lens()
@@ -100,7 +100,7 @@ describe('lens sdk-object', ()=> {
 
 	describe('schema', () => {
 		it('can set schema', ()=> {
-			testSetter('schema', new Schema())
+			testSetter('schema', Schema('test', {type: 'object'}))
 		})
 
 		it('can set reference', ()=> {

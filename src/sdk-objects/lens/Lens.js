@@ -3,8 +3,8 @@ const ajv = new Ajv();
 import {ContainerNotFoundInSnippet, IncorrectArgumentType, InvalidLensDefinition} from "../../Errors";
 import {idRegex, validatePackageName} from "../../Regexes";
 import {Snippet} from "./Snippet";
-import {Schema} from "../schema/Schema";
 import {TrainLens} from "../bridge/LensBridge";
+import {SchemaBase} from "../schema/Schema";
 import {Finder} from "./Finders";
 
 const lensJSONValidation = {
@@ -208,7 +208,7 @@ export class Lens {
 	}
 
 	set schema(schema) {
-		if (schema instanceof Schema) {
+		if (schema instanceof SchemaBase) {
 			this._schema = schema
 		} else if (typeof schema === 'string') { //@todo and is valid ref
 			this._schema = schema
@@ -272,7 +272,7 @@ export class Lens {
 
 		//build the schema
 		if (!this._schema) {
-			this._schema = new Schema(
+			this._schema = new SchemaBase(
 				null,
 				{
 					title: this._name,

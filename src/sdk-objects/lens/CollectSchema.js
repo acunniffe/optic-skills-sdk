@@ -25,11 +25,11 @@ class SchemaComponent {
 	}
 }
 
-export function map(schemaOrLens, inContainer) {
+export function collect(schemaOrLens, inContainer) {
 	return new SchemaComponent(schemaOrLens, false, undefined, inContainer)
 }
 
-export function mapUnique(schemaOrLens, inContainer) {
+export function collectUnique(schemaOrLens, inContainer) {
 	return new SchemaComponent(schemaOrLens, true, undefined, inContainer)
 }
 

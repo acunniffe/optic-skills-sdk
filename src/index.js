@@ -1,7 +1,7 @@
 //Lens
 export {js, scala, python3} from "./sdk-objects/lens/Snippet";
 export {tokenWithValue, arrayWithValue, literalWithValue, objectWithValue} from "./sdk-objects/lens/Finders";
-export {map, mapUnique, mapToObject} from "./sdk-objects/lens/MapSchema";
+export {collect, collectUnique, mapToObject} from "./sdk-objects/lens/CollectSchema";
 
 //Transformation
 export {Transformation, MultiTransformation, MutationTransformation} from "./sdk-objects/transformations/Transformations";

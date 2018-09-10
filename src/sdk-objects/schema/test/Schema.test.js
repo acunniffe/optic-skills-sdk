@@ -1,5 +1,5 @@
 import assert from 'assert'
-import Schema from "../Schema";
+import {Schema} from "../Schema";
 
 describe('schema sdk object', () => {
 	it('will throw on invalid id', () => {

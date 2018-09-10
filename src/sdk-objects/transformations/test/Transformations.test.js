@@ -49,13 +49,7 @@ describe('transformation sdk objects', () => {
 
 		const desc = transformation.transformationDescription()
 		assert.deepStrictEqual(desc,
-			{
-				yields: 'transformed',
-				id: 'example-transform',
-				input: 'hello:abc',
-				output: 'hello:def',
-				func: 'function (input, answers) {\n        return {\n          other: true\n        };\n      }'
-			})
+			{"yields":"transformed","id":"example-transform","input":"hello:abc","func":"function (input, answers) {\n      return {\n        other: true\n      };\n    }","output":"hello:def"})
 
 	})
 
