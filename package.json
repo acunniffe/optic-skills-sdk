@@ -1,6 +1,6 @@
 {
   "name": "optic-skills-sdk",
-  "version": "0.0.1",
+  "version": "0.0.1-rc1",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
