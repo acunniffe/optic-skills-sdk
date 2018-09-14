@@ -167,7 +167,7 @@ export class Lens {
 	}
 	set variables(value) {
 		if (typeof value === 'object') {
-			this._value = value
+			this._variables = value
 		} else {
 			throw new IncorrectArgumentType(value, `variables format`)
 		}
@@ -252,7 +252,6 @@ export class Lens {
 			throw new IncorrectArgumentType(internal, 'boolean')
 		}
 	}
-
 
 	//processing code
 	async resolve() {

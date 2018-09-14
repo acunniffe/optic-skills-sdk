@@ -16,6 +16,9 @@ req.query.name
 		name: tokenWithValue('name')
 	}
 
+	lens.variables = {
+		req: 'self'
+	}
 
 	return Skill('aidan', 'test', '0.1.0', {
 		lenses: [lens]

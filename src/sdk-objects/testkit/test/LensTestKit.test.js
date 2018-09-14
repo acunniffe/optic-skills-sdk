@@ -19,8 +19,8 @@ describe('lens test kit w/ package context', () => {
 		packageTestKit.testLens('express-parameter', (lensTestKit) => {
 			const result = lensTestKit.parse('req.query.abcdefg')
 			assert(result.success)
-			assert(result.result.in === 'query')
-			assert(result.result.name === 'abcdefg')
+			assert(result.value.in === 'query')
+			assert(result.value.name === 'abcdefg')
 			done()
 		})
 	})

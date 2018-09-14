@@ -1,7 +1,7 @@
 import assert from 'assert'
 import {isValidPackageJson} from "../Utils";
 
-describe.only('cli utils', () => {
+describe('cli utils', () => {
 	it('can identify a valid package json', () => {
 		const json = JSON.stringify({
 			"scripts": {

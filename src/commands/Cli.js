@@ -50,6 +50,14 @@ program
 	})
 
 
+if (!process.argv.slice(2).length) {
+	program.outputHelp(make_red);
+}
+
+function make_red(txt) {
+	return colors.red(txt); //display the help text in red on the console
+}
+
 function publishHandler(skillName, cmd, remote = false) {
 	const path = cmd.input || process.cwd()
 	const packageJsonPath = path +'/package.json'
