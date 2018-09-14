@@ -254,8 +254,8 @@ export class Lens {
 	}
 
 	//processing code
-	async resolve() {
-		const trainingResponse = await TrainLens(this.snippet.language, this.snippet.block)
+	resolve() {
+		const trainingResponse = TrainLens(this.snippet.language, this.snippet.block)
 
 		const schemaFields = {}
 
@@ -285,8 +285,8 @@ export class Lens {
 		return this
 	}
 
-	async lensDescription() {
-		const lensFinal = await this.resolve()
+	lensDescription() {
+		const lensFinal = this.resolve()
 		const description = {
 			name: this._name,
 			id: this._id,

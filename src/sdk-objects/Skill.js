@@ -18,8 +18,8 @@ export class Skill {
 		return `${this._author}:${this._package}@${this._version}`
 	}
 
-	async skillsDescription() {
-		const lenses = await Promise.all(this._lenses.map(i => i.lensDescription()))
+	skillsDescription() {
+		const lenses = this._lenses.map(i => i.lensDescription())
 		return {
 			info: {
 				author: this._author,

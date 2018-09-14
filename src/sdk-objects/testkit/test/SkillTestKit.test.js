@@ -26,26 +26,21 @@ req.query.name
 }
 
 describe('skill test kit', () => {
-	it('will return a lens test kit if lens exists', (done)=> {
+	it('will return a lens test kit if lens exists', ()=> {
 		const myskill = skillFixture()
 
 		const testKit = SkillTestKit(myskill)
 
-		testKit.testLens('express-parameter', (lensTestKit) => {
-			done()
-		})
+		testKit.testLens('express-parameter')
 
 	})
 
-	it('will return error if lens does not exist', (done)=> {
+	it('will return error if lens does not exist', ()=> {
 		const mySkill = skillFixture()
 
 		const testKit = SkillTestKit(mySkill)
 
-		testKit.testLens('not-real', (lensTestKit, err) => {
-			assert(err)
-			done()
-		})
+		assert.throws(() => testKit.testLens('not-real'))
 	})
 
 });
