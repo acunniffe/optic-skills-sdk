@@ -18,16 +18,13 @@ req.query.name
 	return lens;
 }
 
-describe('skill declaration', (done) => {
+describe('skill declaration', () => {
 
-	it('will process async', (done) => {
+	it('will process async', () => {
 		const testSkill = Skill('test', 'test', '0.1.0', {
 			lenses: [validLensFixture()]
 		})
 		const d = testSkill.skillsDescription()
-		d.then(i=> {
-			done()
-		})
 	})
 
 })

@@ -1,3 +1,0 @@
-{
-  "publishlocal": "node -e 'require(\'optic-skills-sdk/lib/commands/Publish.js\').publishLocal()'"
-}

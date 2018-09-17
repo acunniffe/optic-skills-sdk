@@ -35,22 +35,23 @@ export function publishLocal(skill, cwd = process.cwd()) {
 }
 
 function prePublish(skill, cwd = process.cwd()) {
-	const skillObj = (()=> {
-		if (skill) {
-			return findSkill(skill, cwd)
-		} else {
-			const allSkills = findSkills(cwd)
-			if (allSkills.length === 1) {
-				return Object.entries(allSkills)[0]
+
+	return new Promise((resolve, reject) => {
+		const skillObj = (()=> {
+			if (skill) {
+				return findSkill(skill, cwd)
 			} else {
-				throw SkillNotFoundInProject('default')
+				const allSkills = findSkills(cwd)
+				if (allSkills.length === 1) {
+					return Object.entries(allSkills)[0]
+				} else {
+					throw SkillNotFoundInProject('default')
+				}
 			}
-		}
-	})()
-
-	console.log(`Compiling skill: ${skillObj.identifierWithVersion()}`)
-
-	return skillObj.skillsDescription()
+		})()
+		console.log(`Compiling skill: ${skillObj.identifierWithVersion()}`)
+		resolve(skillObj.skillsDescription())
+	})
 }
 
 

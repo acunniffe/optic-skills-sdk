@@ -18,3 +18,9 @@ export {LensTestKit} from "./sdk-objects/testkit/LensTestKit";
 export {TransformationTestKit} from "./sdk-objects/testkit/TransformationTestKit";
 export {SchemaTestKit} from "./sdk-objects/testkit/SchemaTestKit";
 export {SkillTestKit} from "./sdk-objects/testkit/SkillTestKit";
+
+//Lint Rules
+export {Rules} from "./sdk-objects/rule/AdvancedLintRule";
+
+//Publishing
+export {publishLocal, publishRemote} from "./commands/Publish";

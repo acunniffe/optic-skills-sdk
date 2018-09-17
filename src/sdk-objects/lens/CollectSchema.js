@@ -5,11 +5,11 @@ class SchemaComponent {
 	constructor(schemaOrLens, unique, toMap, inContainer) {
 		this.schemaRef = (() => {
 			if (schemaOrLens instanceof Lens) {
-				schemaOrLens.schemaRef()
+				return schemaOrLens.schemaRef()
 			} else if (schemaOrLens instanceof Schema) {
-				schemaOrLens.id
+				return schemaOrLens.id
 			} else {
-				schemaOrLens
+				return schemaOrLens
 			}
 		})()
 

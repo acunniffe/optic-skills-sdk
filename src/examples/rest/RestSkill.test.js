@@ -5,84 +5,51 @@ describe('rest skill', () => {
 	const restSkillTestKit = SkillTestKit(restSkill)
 
 	describe('header schema', () => {
-		it('matches valid header model', (done) => {
-			restSkillTestKit.testSchema('header', (headerSchema) => {
-				assert(headerSchema.test({name: 'Content-Type'}).isMatch)
-				done()
-			})
+		const headerTestKit = restSkillTestKit.testSchema('header')
+		it('matches valid header model', () => {
+			assert(headerTestKit.test({name: 'Content-Type'}).isMatch)
 		})
 
-		it('does not match invalid header model', (done) => {
-			restSkillTestKit.testSchema('header', (headerSchema) => {
-				assert(!headerSchema.test({}).isMatch)
-				done()
-			})
+		it('does not match invalid header model', () => {
+			assert(!headerTestKit.test({}).isMatch)
 		})
 	})
 
 	describe('parameters schema', () => {
-		it('matches valid parameter model', (done) => {
-			restSkillTestKit.testSchema('parameter', (parameterSchema) => {
-				assert(parameterSchema.test({in: 'query', name: 'field'}).isMatch)
-				done()
-			})
+		const parameterTestKit = restSkillTestKit.testSchema('parameter')
+
+		it('matches valid parameter model', () => {
+			assert(parameterTestKit.test({in: 'query', name: 'field'}).isMatch)
 		})
 
-		it('does not match invalid parameter model', (done) => {
-			restSkillTestKit.testSchema('parameter', (parameterSchema) => {
-				assert(!parameterSchema.test({in: 'NOT_REAL', name: 'field'}).isMatch)
-				done()
-			})
+		it('does not match invalid parameter model', () => {
+			assert(!parameterTestKit.test({in: 'NOT_REAL', name: 'field'}).isMatch)
 		})
 	})
 
-	describe('parameters schema', () => {
-		it('matches valid parameter model', (done) => {
-			restSkillTestKit.testSchema('parameter', (parameterSchema) => {
-				assert(parameterSchema.test({in: 'query', name: 'field'}).isMatch)
-				done()
-			})
-		})
-
-		it('does not match invalid parameter model', (done) => {
-			restSkillTestKit.testSchema('parameter', (parameterSchema) => {
-				assert(!parameterSchema.test({in: 'NOT_REAL', name: 'field'}).isMatch)
-				done()
-			})
-		})
-	})
 
 	describe('response schema', () => {
-		it('matches valid response model', (done) => {
-			restSkillTestKit.testSchema('response', (parameterSchema) => {
-				assert(parameterSchema.test({code: 200}).isMatch)
-				done()
-			})
+		const responseTestKit = restSkillTestKit.testSchema('response')
+
+		it('matches valid response model', () => {
+			assert(responseTestKit.test({code: 200}).isMatch)
 		})
 
-		it('does not match invalid response model', (done) => {
-			restSkillTestKit.testSchema('response', (parameterSchema) => {
-				assert(!parameterSchema.test({code: '200'}).isMatch)
-				done()
-			})
+		it('does not match invalid response model', () => {
+			assert(!responseTestKit.test({code: '200'}).isMatch)
 		})
 	})
 
 	describe('route schema', () => {
-		it('matches valid route model', (done) => {
-			restSkillTestKit.testSchema('route', (parameterSchema) => {
-				assert(parameterSchema.test({method: 'get', url: 'google.com', parameters: [
-						{name: 'token', in: 'body'}
-					]}).isMatch)
-				done()
-			})
+		const routeTestKit = restSkillTestKit.testSchema('route')
+		it('matches valid route model', () => {
+			assert(routeTestKit.test({method: 'get', url: 'google.com', parameters: [
+					{name: 'token', in: 'body'}
+				]}).isMatch)
 		})
 
-		it('does not match invalid route model', (done) => {
-			restSkillTestKit.testSchema('route', (parameterSchema) => {
-				assert(!parameterSchema.test({code: '200'}).isMatch)
-				done()
-			})
+		it('does not match invalid route model', () => {
+			assert(!routeTestKit.test({code: '200'}).isMatch)
 		})
 	})
 

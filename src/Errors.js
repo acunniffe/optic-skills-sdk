@@ -12,7 +12,7 @@ export function FinderFailedOnCompile(type, value, level = 'error') {
 	return {
 		level,
 		type: 'FinderFailedOnCompile',
-		message: `Finder failed on compiler. A ${type} with value '${value.toString()}' was not found in the lens example`,
+		message: `Finder failed in compiler. A ${type} with value '${JSON.stringify(value)}' was not found`,
 		isError: true
 	}
 }
@@ -112,7 +112,7 @@ export function SkillNotFoundInProject(id) {
 	return {
 		level: 'error',
 		type: 'SkillNotFoundInProject',
-		message: `Skill '${id}' was not found in this project. Make sure it's exported from a file like '*.skill.js'`,
+		message: `Skill '${id}' was not found in this project. Make sure it's exported from a file named '*.skill.js'`,
 		isError: true
 	}
 }

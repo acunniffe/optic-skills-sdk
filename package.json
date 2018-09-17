@@ -1,6 +1,6 @@
 {
   "name": "optic-skills-sdk",
-  "version": "0.0.1-rc1",
+  "version": "0.0.1-rc2",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -8,6 +8,9 @@
     "test": "npm run build && find ./lib -name '*.test.js' | xargs mocha -R spec"
   },
   "license": "MIT",
+  "bin": {
+    "opticsdk": "lib/commands/Cli.js"
+  },
   "devDependencies": {
     "@babel/cli": "^7.0.0-beta.49",
     "@babel/core": "^7.0.0-beta.49",
@@ -17,11 +20,15 @@
   },
   "dependencies": {
     "ajv": "^5.2.2",
+    "colors": "^1.3.2",
+    "commander": "^2.18.0",
     "deep-equal": "^1.0.1",
     "glob": "^7.1.3",
+    "is-json": "^2.0.1",
     "mkdirp": "^0.5.1",
     "nice-try": "^1.0.4",
     "path": "^0.12.7",
+    "prompt": "^1.0.0",
     "regenerator-runtime": "^0.12.1",
     "request": "^2.88.0",
     "request-promise": "^4.2.2",

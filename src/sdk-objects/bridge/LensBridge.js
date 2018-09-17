@@ -1,12 +1,15 @@
-import rp from 'request-promise'
 import srequest from 'sync-request'
-     //feels dirty but this is just for testing. there is no reason to subject test code to callback hell
+//feels dirty but this is just for testing. there is no reason to subject test code to callback hell
 import 'regenerator-runtime/runtime';
 import {preCheck} from "./OpticBridge";
 
-export async function TrainLens(languageName, snippet) {
+export function TrainLens(languageName, snippet) {
 	preCheck()
-	return rp.post('http://localhost:30333/sdk-bridge/lens', {body: {languageName, snippet}, json: true})
+	const response = srequest('POST', 'http://localhost:30333/sdk-bridge/lens', {
+		json: {languageName, snippet}
+	})
+
+	return JSON.parse(response.getBody('utf8'))
 }
 
 
