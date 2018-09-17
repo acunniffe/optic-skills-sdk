@@ -3,7 +3,7 @@ import safeEval from 'safe-eval'
 export function testTransformation(transformation) {
 	return {
 		'with': (input = {}, answers = {}) => {
-			const withCall = `(${transformation._func.toString()})(input, answers)`
+			const withCall = `(${transformation._script.toString()})(input, answers)`
 
 			try {
 				const output = safeEval(withCall, {input, answers, ...helpers()})

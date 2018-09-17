@@ -3,7 +3,7 @@ import {IncorrectArgumentType} from "../../Errors";
 import {AskConfig} from "./AskConfig";
 
 export class TransformationBase {
-	constructor(yields, id, input, output, func) {
+	constructor(yields, id, input, output, script) {
 
 		if (typeof yields !== 'string') {
 			throw new IncorrectArgumentType(yields, 'string')
@@ -21,15 +21,15 @@ export class TransformationBase {
 			throw new IncorrectArgumentType(output, 'string')
 		}
 
-		if (typeof func !== 'function') {
-			throw new IncorrectArgumentType(func, 'function')
+		if (typeof script !== 'function') {
+			throw new IncorrectArgumentType(script, 'function')
 		}
 
 		this._yields = yields
 		this._id = id
 		this._input = input
 		this._output = output
-		this._func = func
+		this._script = script
 	}
 
 	withAsk(ask) {
@@ -45,7 +45,7 @@ export class TransformationBase {
 			yields: this._yields,
 			id: this._id,
 			input: this._input,
-			func: this._func.toString(),
+			script: this._script.toString(),
 		}
 
 		if (this._output) {
@@ -55,6 +55,9 @@ export class TransformationBase {
 		if (this._ask) {
 			obj.ask = this._ask.toJsonSchema()
 			obj.dynamicAsk = this._ask.collectDynamicAsk()
+		} else {
+			obj.ask = {}
+			obj.dynamicAsk = {}
 		}
 
 		return obj

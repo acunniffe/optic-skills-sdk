@@ -189,7 +189,7 @@ export class Lens {
 	}
 	set containers(value) {
 		if (typeof value === 'object') {
-			this._value = value
+			this._containers = value
 		} else {
 			throw new IncorrectArgumentType(value, `containers format`)
 		}
@@ -213,7 +213,10 @@ export class Lens {
 			this._schema = schema
 		} else if (typeof schema === 'string') { //@todo and is valid ref
 			this._schema = schema
-		} else {
+		} else if (typeof schema === 'object') {
+			this._schema = schema
+		}
+		else {
 			throw new IncorrectArgumentType(schema, `'Schema' or 'string' referencing schema ie author:name/schema-id`)
 		}
 	}

@@ -49,7 +49,15 @@ describe('transformation sdk objects', () => {
 
 		const desc = transformation.transformationDescription()
 		assert.deepStrictEqual(desc,
-			{"yields":"transformed","id":"example-transform","input":"hello:abc","func":"function (input, answers) {\n      return {\n        other: true\n      };\n    }","output":"hello:def"})
+			{
+				"yields": "transformed",
+				"id": "example-transform",
+				"input": "hello:abc",
+				"script": "function (input, answers) {\n      return {\n        other: true\n      };\n    }",
+				"output": "hello:def",
+				"ask": {},
+				"dynamicAsk": {}
+			})
 
 	})
 
@@ -64,7 +72,9 @@ describe('transformation sdk objects', () => {
 				yields: 'transformed',
 				id: 'example-transform',
 				input: 'hello:abc',
-				func: 'function (input, answers) {\n      return {\n        other: true\n      };\n    }'
+				"ask": {},
+				"dynamicAsk": {},
+				script: 'function (input, answers) {\n      return {\n        other: true\n      };\n    }'
 			})
 
 	})
@@ -85,7 +95,7 @@ describe('transformation sdk objects', () => {
 				"yields": "transformed",
 				"id": "example-transform",
 				"input": "hello:abc",
-				"func": "function (input, answers) {\n      return {\n        other: true\n      };\n    }",
+				"script": "function (input, answers) {\n      return {\n        other: true\n      };\n    }",
 				"output": "hello:def",
 				"ask": {
 					"type": "object",

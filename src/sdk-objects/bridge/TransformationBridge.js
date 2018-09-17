@@ -5,7 +5,7 @@ import 'regenerator-runtime/runtime';
 import {preCheck} from "./OpticBridge";
 
 //Test runners
-export function TestTransformation(packageJson, transformationId, input, answers) {
+export function TestTransformation(packageJson, transformationId, input = {}, answers = {}) {
 	preCheck()
 	const response = srequest('POST', 'http://localhost:30333/sdk-bridge/transformation/test', {
 		json: {

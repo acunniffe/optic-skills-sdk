@@ -27,6 +27,7 @@
     "is-json": "^2.0.1",
     "mkdirp": "^0.5.1",
     "nice-try": "^1.0.4",
+    "optic-js-common": "^1.0.2",
     "path": "^0.12.7",
     "prompt": "^1.0.0",
     "regenerator-runtime": "^0.12.1",
