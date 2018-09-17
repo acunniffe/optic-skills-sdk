@@ -93,6 +93,7 @@ export class Lens {
 		this._initialValue = {};
 		this._priority = 1;
 		this._internal = false;
+		this._sublenses = [];
 	}
 
 	//name
@@ -253,6 +254,19 @@ export class Lens {
 		}
 	}
 
+	get sublenses() {
+		return this._sublenses
+	}
+
+	set sublenses(array) {
+		if (Array.isArray(array) && array.every((l) => l instanceof Lens)) {
+			array.forEach(l => l.internal = true)
+			this._sublenses = array
+		} else {
+			throw new IncorrectArgumentType(array, 'an array of Lens objects')
+		}
+	}
+
 	//processing code
 	resolve() {
 		const trainingResponse = TrainLens(this.snippet.language, this.snippet.block)
@@ -264,7 +278,7 @@ export class Lens {
 		finderValues.forEach(fPair => {
 			const key = fPair[0]
 			const finder = fPair[1]
-			const finderResult = finder.evaluate(trainingResponse.trainingResults.candidates)
+			const finderResult = finder.evaluate(trainingResponse.trainingResults.candidates, this._id)
 			schemaFields[key] = {...finderResult.schemaField, ...finder.options.rules}
 			this.value[key] = finderResult.stagedComponent.component
 		})

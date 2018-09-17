@@ -4,7 +4,16 @@ export class Skill {
 		this._author = author
 		this._package = name
 		this._version = version
-		this._lenses = lenses
+		this._lenses = lenses.reduce((a, current) => {
+			if (current.sublenses.length) {
+				const lenses = a.concat(current.sublenses)
+				lenses.push(current)
+				return lenses
+			} else {
+				a.push(current)
+				return a
+			}
+		}, [])
 		this._transformations = transformations
 		this._schemas = schemas
 		this._dependencies = dependencies
@@ -19,7 +28,13 @@ export class Skill {
 	}
 
 	skillsDescription() {
-		const lenses = this._lenses.map(i => i.lensDescription())
+		const lenses = this._lenses.map(l => {
+			try {
+				return l.lensDescription()
+			} catch (e) {
+				throw new Error(`Lens '${l.id}' did not compile: ${e.message}`)
+			}
+		})
 		return {
 			info: {
 				author: this._author,

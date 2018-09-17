@@ -12,7 +12,7 @@ export function FinderFailedOnCompile(type, value, level = 'error') {
 	return {
 		level,
 		type: 'FinderFailedOnCompile',
-		message: `Finder failed on compiler. A ${type} with value '${value.toString()}' was not found in the lens example`,
+		message: `Finder failed in compiler. A ${type} with value '${JSON.stringify(value)}' was not found`,
 		isError: true
 	}
 }

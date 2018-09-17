@@ -40,7 +40,7 @@ export class Finder {
 		return this._options
 	}
 
-	evaluate(candidates) {
+	evaluate(candidates, lensId) {
 		const found = candidates.filter(i=> {
 			return i.stagedComponent.component.type === this._type &&
 				(equals(i.value, this._value))
