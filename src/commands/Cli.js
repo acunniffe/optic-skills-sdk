@@ -10,6 +10,9 @@ import colors from 'colors'
 import prompt from 'prompt'
 import {idRegex} from "../Regexes";
 import {initInDirectory} from "./Init";
+import {addUser, createUser} from "./registry/UserManagment";
+import 'regenerator-runtime/runtime';
+
 prompt.message = ''
 
 program
@@ -23,7 +26,13 @@ program
 	.action((skillName, cmd) => publishHandler(skillName, cmd, false))
 
 program
+	.command('publish [skill-name]')
+	.option('-input, --input <dir>', 'Skill directory. Defaults to cwd')
+	.action((skillName, cmd) => publishHandler(skillName, cmd, true))
+
+program
 	.command('init')
+	.description('add boilerplate skill to cwd')
 	.action(() => {
 		const fieldSchema = {
 			pattern: idRegex,
@@ -50,6 +59,56 @@ program
 	})
 
 
+program
+	.command('createuser')
+	.description('create a new user on registry.useoptic.com')
+	.action(() => {
+
+		const schema = {
+			properties: {
+				email: {
+					required: true,
+				},
+				password: {
+					required: true,
+					hidden: true
+				},
+				namespace: {
+					required: true,
+				}
+			}
+		};
+
+		prompt.get(schema, function (err, result) {
+			createUser(result.email, result.password, result.namespace)
+			return
+		})
+
+	})
+
+program
+	.command('adduser')
+	.description('add a new optic account to this computer')
+	.action(() => {
+		const schema = {
+			properties: {
+				email: {
+					required: true
+				},
+				password: {
+					required: true,
+					hidden: true
+				}
+			}
+		};
+
+		prompt.get(schema, function (err, result) {
+			addUser(result.email, result.password)
+			return
+		})
+	})
+
+
 if (!process.argv.slice(2).length) {
 	program.outputHelp(make_red);
 }
@@ -65,9 +124,16 @@ function publishHandler(skillName, cmd, remote = false) {
 
 	if (fs.existsSync(packageJsonPath) && isValidPackageJson(fs.readFileSync(packageJsonPath, 'utf8'))) {
 		execSync('npm run build', {cwd: path});
-		const localpublish = require(path+'/node_modules/optic-skills-sdk').publishLocal
-		localpublish(skillName, path+'/lib')
-			.catch((error) => console.log(error.message.red))
+
+		if (remote) {
+			const publishRemote = require(path + '/node_modules/optic-skills-sdk').publishRemote
+			publishRemote(skillName, path + '/lib')
+				.catch((error) => console.log(error.message.red))
+		} else {
+			const localpublish = require(path + '/node_modules/optic-skills-sdk').publishLocal
+			localpublish(skillName, path + '/lib')
+				.catch((error) => console.log(error.message.red))
+		}
 
 	} else {
 		console.log('publishlocal must be run from a directory containing an Optic skill project. Run \'opticsdk init\' to create one'.red)

@@ -16,7 +16,7 @@ describe('transformation eval', () => {
 			}
 		)).with({abc: 'def'})
 
-		assert.deepEqual(result, { success: true, output: { l: true } })
+		assert.deepEqual(result, {success: true, output: {l: true}})
 
 	})
 
@@ -32,11 +32,15 @@ describe('transformation eval', () => {
 			}
 		)).with({abc: 'def'})
 
-		assert.deepEqual(result, { success: true,output:
-				{ schema: 'abc:def',
-					value: { l: true },
+		assert.deepEqual(result, {
+			success: true, output:
+				{
+					schema: 'abc:def',
+					value: {l: true},
 					options: undefined,
-					_isStagedNode: true } })
+					_isStagedNode: true
+				}
+		})
 
 	})
 
@@ -53,8 +57,10 @@ describe('transformation eval', () => {
 			}
 		)).with({abc: 'def'})
 
-		assert.deepEqual(result, { success: false,
-			error: 'Error evaluating codeError: broke it' })
+		assert.deepEqual(result, {
+			success: false,
+			error: 'Error evaluating codeError: broke it'
+		})
 
 	})
 

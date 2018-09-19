@@ -5,9 +5,17 @@ import mkdirp from 'mkdirp'
 import {packagePath} from "./Constants";
 import fs from 'fs'
 import {Skill} from "../sdk-objects/Skill";
+import {publishPackage} from "./registry/Publish";
 
 export function publishRemote(skill, cwd = process.cwd()) {
 
+	const skillPromise = prePublish(skill, cwd);
+
+	return skillPromise.then((result) => {
+		publishPackage(result)
+	}, (e) => {
+		console.error('Could not compile skill: '+ e.message)
+	})
 }
 
 export function publishLocal(skill, cwd = process.cwd()) {
