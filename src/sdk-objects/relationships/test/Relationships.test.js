@@ -1,5 +1,5 @@
 import assert from 'assert'
-import {MutationTransformation, Transformation, TransformationBase} from "../Transformations";
+import {MutationRelationship, Relationship, RelationshipsBase} from "../Relationships";
 import {Ask} from "../AskConfig";
 
 describe('transformation sdk objects', () => {
@@ -8,46 +8,46 @@ describe('transformation sdk objects', () => {
 
 		it('will throw on invalid yields', () => {
 			assert.throws(() => {
-				new TransformationBase(123, 'abc', 'abc:abc', 'abc:def', () => {
+				new RelationshipsBase(123, 'abc', 'abc:abc', 'abc:def', () => {
 				})
 			})
 		})
 
 		it('will throw on invalid id', () => {
 			assert.throws(() => {
-				new TransformationBase('abcdef', 123, 'abc:abc', 'abc:def', () => {
+				new RelationshipsBase('abcdef', 123, 'abc:abc', 'abc:def', () => {
 				})
 			})
 		})
 
 		it('will throw on invalid input', () => {
 			assert.throws(() => {
-				new TransformationBase('abc', 'abc', 123, 'abc:def', () => {
+				new RelationshipsBase('abc', 'abc', 123, 'abc:def', () => {
 				})
 			})
 		})
 
 		it('will throw on invalid output', () => {
 			assert.throws(() => {
-				new TransformationBase('abc', 'abc', 'abc:abc', 123, () => {
+				new RelationshipsBase('abc', 'abc', 'abc:abc', 123, () => {
 				})
 			})
 		})
 
 		it('will throw on invalid func', () => {
 			assert.throws(() => {
-				new TransformationBase('abc', 'abc', 'abc:abc', 'def:def', '() => {}')
+				new RelationshipsBase('abc', 'abc', 'abc:abc', 'def:def', '() => {}')
 			})
 		})
 
 	})
 
 	it('basic transformation can be configured using helper function', () => {
-		const transformation = Transformation('transformed', 'example-transform', 'hello:abc', 'hello:def', (input, answers) => {
+		const transformation = Relationship('transformed', 'example-transform', 'hello:abc', 'hello:def', (input, answers) => {
 			return {other: true}
 		})
 
-		const desc = transformation.transformationDescription()
+		const desc = transformation.relationshipsDescription()
 		assert.deepStrictEqual(desc,
 			{
 				"yields": "transformed",
@@ -62,11 +62,11 @@ describe('transformation sdk objects', () => {
 	})
 
 	it('mutation transformation can be configured using helper function', () => {
-		const transformation = MutationTransformation('transformed', 'example-transform', 'hello:abc', (input, answers) => {
+		const transformation = MutationRelationship('transformed', 'example-transform', 'hello:abc', (input, answers) => {
 			return {other: true}
 		})
 
-		const desc = transformation.transformationDescription()
+		const desc = transformation.relationshipsDescription()
 		assert.deepStrictEqual(desc,
 			{
 				yields: 'transformed',
@@ -83,13 +83,13 @@ describe('transformation sdk objects', () => {
 		const ask = Ask()
 		ask.forPrimitive('test', 'used for testing', 'string')
 
-		const transformation = Transformation('transformed', 'example-transform', 'hello:abc', 'hello:def', (input, answers) => {
+		const transformation = Relationship('transformed', 'example-transform', 'hello:abc', 'hello:def', (input, answers) => {
 			return {other: true}
 		})
 
 		transformation.withAsk(ask)
 
-		const desc = transformation.transformationDescription()
+		const desc = transformation.relationshipsDescription()
 
 		assert.deepStrictEqual(desc, {
 				"yields": "transformed",

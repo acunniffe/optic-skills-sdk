@@ -1,21 +1,21 @@
 import 'regenerator-runtime/runtime';
 export class Skill {
-	constructor(author, name, version, lenses = [], transformations = [], schemas = [], dependencies = {}) {
+	constructor(author, name, version, generators = [], relationships = [], abstractions = [], dependencies = {}) {
 		this._author = author
 		this._package = name
 		this._version = version
-		this._lenses = lenses.reduce((a, current) => {
-			if (current.sublenses.length) {
-				const lenses = a.concat(current.sublenses)
-				lenses.push(current)
-				return lenses
+		this._generators = generators.reduce((a, current) => {
+			if (current.subgenerators.length) {
+				const generators = a.concat(current.subgenerators)
+				generators.push(current)
+				return generators
 			} else {
 				a.push(current)
 				return a
 			}
 		}, [])
-		this._transformations = transformations
-		this._schemas = schemas
+		this._relationships = relationships
+		this._abstractions = abstractions
 		this._dependencies = dependencies
 	}
 
@@ -28,23 +28,23 @@ export class Skill {
 	}
 
 	skillsDescription() {
-		const lenses = this._lenses.map(l => {
+		const generators = this._generators.map(l => {
 			try {
-				return l.lensDescription()
+				return l.generatorDescription()
 			} catch (e) {
 				throw new Error(`Lens '${l.id}' did not compile: ${e.message}`)
 			}
 		})
-		return {
+		return { //going to continue using old names for a few more versions
 			info: {
 				author: this._author,
 				'package': this._package,
 				version: this._version,
 				dependencies: this._dependencies
 			},
-			lenses,
-			schemas: this._schemas.map(i => i.schemaDescription()),
-			transformations: this._transformations.map(i => i.transformationDescription())
+			lenses: generators,
+			schemas: this._abstractions.map(i => i.schemaDescription()),
+			transformations: this._relationships.map(i => i.relationshipsDescription())
 		}
 	}
 }
@@ -54,8 +54,8 @@ export function SkillsFactory(author, name, version, contents) {
 		author,
 		name,
 		version,
-		contents.lenses || [],
-		contents.transformations || [],
-		contents.schemas || [],
+		contents.generators || [],
+		contents.relationships || [],
+		contents.abstractions || [],
 		contents.dependencies || {})
 }

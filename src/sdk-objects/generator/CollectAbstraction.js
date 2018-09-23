@@ -1,12 +1,12 @@
-import {Lens} from "./Lens";
-import {Schema} from "../..";
+import {Generator} from "./Generator";
+import {Abstraction} from "../..";
 
-class SchemaComponent {
+class AbstractionComponent {
 	constructor(schemaOrLens, unique, toMap, inContainer) {
 		this.schemaRef = (() => {
-			if (schemaOrLens instanceof Lens) {
+			if (schemaOrLens instanceof Generator) {
 				return schemaOrLens.schemaRef()
-			} else if (schemaOrLens instanceof Schema) {
+			} else if (schemaOrLens instanceof Abstraction) {
 				return schemaOrLens.id
 			} else {
 				return schemaOrLens
@@ -26,13 +26,13 @@ class SchemaComponent {
 }
 
 export function collect(schemaOrLens, inContainer) {
-	return new SchemaComponent(schemaOrLens, false, undefined, inContainer)
+	return new AbstractionComponent(schemaOrLens, false, undefined, inContainer)
 }
 
 export function collectUnique(schemaOrLens, inContainer) {
-	return new SchemaComponent(schemaOrLens, true, undefined, inContainer)
+	return new AbstractionComponent(schemaOrLens, true, undefined, inContainer)
 }
 
 export function mapToObject(schemaOrLens, field, inContainer) {
-	return new SchemaComponent(schemaOrLens, true, field, inContainer)
+	return new AbstractionComponent(schemaOrLens, true, field, inContainer)
 }

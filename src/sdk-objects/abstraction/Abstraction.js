@@ -1,20 +1,20 @@
 import {validatePackageName} from "../../Regexes";
-import {InvalidSchemaDefinition} from "../../Errors";
+import {InvalidAbstractionDefinition} from "../../Errors";
 import Ajv from 'ajv'
 
 const ajv = Ajv()
 ajv.addMetaSchema(require('ajv/lib/refs/json-schema-draft-04.json'));
 
 
-export class SchemaBase {
+export class AbstractionBase {
 	constructor(id, definition) {
 
 		if (!validatePackageName(id)) {
-			throw new InvalidSchemaDefinition(`'${id}' is not a valid schema id`)
+			throw new InvalidAbstractionDefinition(`'${id}' is not a valid abstraction id`)
 		}
 
 		if (!ajv.validateSchema(definition)) {
-			throw new InvalidSchemaDefinition(ajv.errors)
+			throw new InvalidAbstractionDefinition(ajv.errors)
 		}
 
 		this._id = id
@@ -37,6 +37,6 @@ export class SchemaBase {
 	}
 }
 
-export function Schema(id, definition) {
-	return new SchemaBase(id, definition)
+export function Abstraction(id, definition) {
+	return new AbstractionBase(id, definition)
 }

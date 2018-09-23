@@ -1,6 +1,6 @@
-import {LensTestKit} from "./LensTestKit";
-import {LensNotFoundInPackage, SchemaNotFoundInPackage, TransformationNotFoundInPackage} from "../../Errors";
-import {SchemaTestKit} from "./SchemaTestKit";
+import {GeneratorTestKit} from "./GeneratorTestKit";
+import {GeneratorNotFoundInPackage, AbstractionNotFoundInPackage, RelationshipNotFoundInPackage} from "../../Errors";
+import {AbstractionTestKit} from "./AbstractionTestKit";
 import {TransformationTestKit} from "./TransformationTestKit";
 import {Skill} from "../Skill";
 
@@ -14,13 +14,13 @@ export function SkillTestKit(p) {
 
 	const skillConfiguration = {
 		lenses: (() => {
-			const pairs = packageDescription.lenses.map(i => [i.id, new LensTestKit(i, packageDescription)])
+			const pairs = packageDescription.lenses.map(i => [i.id, new GeneratorTestKit(i, packageDescription)])
 			const lensesObj = {}
 			pairs.forEach(pair => lensesObj[pair[0]] = pair[1])
 			return lensesObj
 		})(),
 		schemas: (() => {
-			const pairs = packageDescription.schemas.map(i => [i.id, new SchemaTestKit(i, packageDescription)])
+			const pairs = packageDescription.schemas.map(i => [i.id, new AbstractionTestKit(i, packageDescription)])
 			const schemasObj = {}
 			pairs.forEach(pair => schemasObj[pair[0]] = pair[1])
 			return schemasObj
@@ -40,7 +40,7 @@ export function SkillTestKit(p) {
 			if (lens) {
 				return lens
 			} else {
-				throw new LensNotFoundInPackage(id)
+				throw new GeneratorNotFoundInPackage(id)
 			}
 		},
 		testSchema: (id) => {
@@ -48,7 +48,7 @@ export function SkillTestKit(p) {
 			if (schema) {
 				return (schema)
 			} else {
-				throw new SchemaNotFoundInPackage(id)
+				throw new AbstractionNotFoundInPackage(id)
 			}
 		},
 		testTransformation: (id) => {
@@ -56,7 +56,7 @@ export function SkillTestKit(p) {
 			if (transformations) {
 				return transformations
 			} else {
-				throw new TransformationNotFoundInPackage(id)
+				throw new RelationshipNotFoundInPackage(id)
 			}
 		}
 	}

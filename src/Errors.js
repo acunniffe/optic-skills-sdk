@@ -62,47 +62,47 @@ export function ContainerNotFoundInSnippet(name) {
 	}
 }
 
-export function InvalidLensDefinition(errors) {
+export function InvalidGeneratorDefinition(errors) {
 	return {
 		level: 'error',
-		type: 'InvalidLensDefinition',
-		message: `Invalid lens definition: ${errors}`,
+		type: 'InvalidGeneratorDefinition',
+		message: `Invalid Generator definition: ${errors}`,
 		isError: true
 	}
 }
 
-export function InvalidSchemaDefinition(errors) {
+export function InvalidAbstractionDefinition(errors) {
 	return {
 		level: 'error',
-		type: 'InvalidSchemaDefinition',
-		message: `Invalid schema definition: ${errors}`,
+		type: 'InvalidAbstractionDefinition',
+		message: `Invalid abstraction definition: ${errors}`,
 		isError: true
 	}
 }
 
-export function LensNotFoundInPackage(id) {
+export function GeneratorNotFoundInPackage(id) {
 	return {
 		level: 'error',
-		type: 'LensNotFoundInPackage',
-		message: `Lens '${id} not found in package`,
+		type: 'GeneratorNotFoundInPackage',
+		message: `Generator '${id} not found in package`,
 		isError: true
 	}
 }
 
-export function SchemaNotFoundInPackage(id) {
+export function AbstractionNotFoundInPackage(id) {
 	return {
 		level: 'error',
-		type: 'SchemaNotFoundInPackage',
-		message: `Schema '${id} not found in package`,
+		type: 'AbstractionNotFoundInPackage',
+		message: `Abstraction '${id} not found in package`,
 		isError: true
 	}
 }
 
-export function TransformationNotFoundInPackage(id) {
+export function RelationshipNotFoundInPackage(id) {
 	return {
 		level: 'error',
-		type: 'TransformationNotFoundInPackage',
-		message: `Transformation '${id} not found in package`,
+		type: 'RelationshipNotFoundInPackage',
+		message: `Relationship '${id} not found in package`,
 		isError: true
 	}
 }

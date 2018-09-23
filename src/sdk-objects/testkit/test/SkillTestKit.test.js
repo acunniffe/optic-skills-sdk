@@ -1,27 +1,27 @@
 import assert from 'assert'
-import {tokenWithValue} from "../../lens/Finders";
-import {js} from "../../lens/Snippet";
+import {tokenWithValue} from "../../generator/Finders";
+import {js} from "../../generator/Snippet";
 import {SkillTestKit} from "../SkillTestKit";
 import {Skill} from "../../../index";
 
 export function skillFixture() {
-	const lens = js`
+	const gen = js`
 req.query.name	
 `
-	lens.name = 'Parameter'
-	lens.id = 'express-parameter'
+	gen.name = 'Parameter'
+	gen.id = 'express-parameter'
 
-	lens.value = {
+	gen.value = {
 		in: tokenWithValue('query'),
 		name: tokenWithValue('name')
 	}
 
-	lens.variables = {
+	gen.variables = {
 		req: 'self'
 	}
 
 	return Skill('aidan', 'test', '0.1.0', {
-		lenses: [lens]
+		generators: [gen]
 	})
 }
 

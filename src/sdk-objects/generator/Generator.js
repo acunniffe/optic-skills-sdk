@@ -1,13 +1,14 @@
 import Ajv from 'ajv'
 const ajv = new Ajv();
-import {ContainerNotFoundInSnippet, IncorrectArgumentType, InvalidLensDefinition} from "../../Errors";
+import {ContainerNotFoundInSnippet, IncorrectArgumentType, InvalidGeneratorDefinition} from "../../Errors";
 import {idRegex, validatePackageName} from "../../Regexes";
 import {Snippet} from "./Snippet";
-import {TrainLens} from "../bridge/LensBridge";
-import {SchemaBase} from "../schema/Schema";
+import {TrainGenerator} from "../bridge/GeneratorTrainingBridge";
+import {AbstractionBase} from "../abstraction/Abstraction";
 import {Finder} from "./Finders";
 
-const lensJSONValidation = {
+
+const generatorJSONValidation = {
 	"type": "object",
 	"required": [
 		"id",
@@ -62,7 +63,7 @@ const lensJSONValidation = {
 				]
 			}
 		},
-		"schema": {
+		"abstraction": {
 			"anyOf": [
 				{
 					"type": "string"
@@ -81,7 +82,7 @@ const lensJSONValidation = {
 	}
 }
 
-export class Lens {
+export class Generator {
 	constructor() {
 		this._name;
 		this._id;
@@ -89,11 +90,11 @@ export class Lens {
 		this._value = {}
 		this._variables = {};
 		this._containers = {};
-		this._schema;
+		this._abstraction;
 		this._initialValue = {};
 		this._priority = 1;
 		this._internal = false;
-		this._sublenses = [];
+		this._subgenerators = [];
 	}
 
 	//name
@@ -157,11 +158,11 @@ export class Lens {
 	get variables() {
 		return new Proxy(this._variables, {
 			set: (target, key, value, rec) => {
-				if (lensJSONValidation.properties.variables.additionalProperties.enum.includes(value)) {  //@todo validate structure of values
+				if (generatorJSONValidation.properties.variables.additionalProperties.enum.includes(value)) {  //@todo validate structure of values
 					target[key] = value
 					return true
 				} else {
-					throw new IncorrectArgumentType(value, `one of `+lensJSONValidation.properties.variables.additionalProperties.enum)
+					throw new IncorrectArgumentType(value, `one of `+generatorJSONValidation.properties.variables.additionalProperties.enum)
 				}
 			}
 		})
@@ -178,11 +179,11 @@ export class Lens {
 	get containers() {
 		return new Proxy(this._containers, {
 			set: (target, key, value, rec) => {
-				if (lensJSONValidation.properties.containers.additionalProperties.enum.includes(value)) {  //@todo validate structure of values
+				if (generatorJSONValidation.properties.containers.additionalProperties.enum.includes(value)) {  //@todo validate structure of values
 					target[key] = value
 					return true
 				} else {
-					throw new IncorrectArgumentType(value, `one of `+ lensJSONValidation.properties.containers.additionalProperties.enum)
+					throw new IncorrectArgumentType(value, `one of `+ generatorJSONValidation.properties.containers.additionalProperties.enum)
 				}
 			}
 		})
@@ -196,28 +197,28 @@ export class Lens {
 	}
 
 	//schema
-	get schema() {
-		return this._schema
+	get abstraction() {
+		return this._abstraction
 	}
 
-	schemaRef() {
-		if (typeof this._schema === 'string') {
-			return this._schema
+	abstractionRef() {
+		if (typeof this._abstraction === 'string') {
+			return this._abstraction
 		} else {
-			this._id
+			return this._id
 		}
 	}
 
-	set schema(schema) {
-		if (schema instanceof SchemaBase) {
-			this._schema = schema
-		} else if (typeof schema === 'string') { //@todo and is valid ref
-			this._schema = schema
-		} else if (typeof schema === 'object') {
-			this._schema = schema
+	set abstraction(abstraction) {
+		if (abstraction instanceof AbstractionBase) {
+			this._abstraction = abstraction
+		} else if (typeof abstraction === 'string') { //@todo and is valid ref
+			this._abstraction = abstraction
+		} else if (typeof abstraction === 'object') {
+			this._abstraction = abstraction
 		}
 		else {
-			throw new IncorrectArgumentType(schema, `'Schema' or 'string' referencing schema ie author:name/schema-id`)
+			throw new IncorrectArgumentType(abstraction, `'Abstraction' or 'string' referencing abstraction ie author:name/abstraction-id`)
 		}
 	}
 
@@ -257,22 +258,22 @@ export class Lens {
 		}
 	}
 
-	get sublenses() {
-		return this._sublenses
+	get subgenerators() {
+		return this._subgenerators
 	}
 
-	set sublenses(array) {
-		if (Array.isArray(array) && array.every((l) => l instanceof Lens)) {
+	set subgenerators(array) {
+		if (Array.isArray(array) && array.every((l) => l instanceof Generator)) {
 			array.forEach(l => l.internal = true)
-			this._sublenses = array
+			this._subgenerators = array
 		} else {
-			throw new IncorrectArgumentType(array, 'an array of Lens objects')
+			throw new IncorrectArgumentType(array, 'an array of Generator objects')
 		}
 	}
 
 	//processing code
 	resolve() {
-		const trainingResponse = TrainLens(this.snippet.language, this.snippet.block)
+		const trainingResponse = TrainGenerator(this.snippet.language, this.snippet.block)
 
 		const schemaFields = {}
 
@@ -287,8 +288,8 @@ export class Lens {
 		})
 
 		//build the schema
-		if (!this._schema) {
-			this._schema = new SchemaBase(
+		if (!this._abstraction) {
+			this._abstraction = new AbstractionBase(
 				null,
 				{
 					title: this._name,
@@ -302,8 +303,8 @@ export class Lens {
 		return this
 	}
 
-	lensDescription() {
-		const lensFinal = this.resolve()
+	generatorDescription() {
+		const generatorFinal = this.resolve()
 		const description = {
 			name: this._name,
 			id: this._id,
@@ -311,14 +312,14 @@ export class Lens {
 			value: this._value,
 			variables: this._variables,
 			containers: this._containers,
-			schema: this._schema,
+			schema: this._abstraction,
 			initialValue: this._initialValue,
 			priority: this._priority,
 			internal: this._internal
 		}
-		const isValid = ajv.validate(lensJSONValidation, description)
+		const isValid = ajv.validate(generatorJSONValidation, description)
 		if (!isValid) {
-			throw new InvalidLensDefinition(ajv.errors.map(i=> i.message).join(', '))
+			throw new InvalidGeneratorDefinition(ajv.errors.map(i=> i.message).join(', '))
 		}
 
 		return description

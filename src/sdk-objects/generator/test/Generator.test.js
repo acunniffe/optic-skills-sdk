@@ -1,20 +1,20 @@
 import assert from 'assert'
-import {Lens} from '../Lens'
+import {Generator} from '../Generator'
 import {IncorrectArgumentType} from "../../../Errors";
 import {Snippet} from "../Snippet";
-import {Schema} from "../../..";
+import {Abstraction} from "../../..";
 
-describe('lens sdk-object', ()=> {
-	const lens = new Lens()
+describe('generator sdk-object', ()=> {
+	const generator = new Generator()
 
 	function testSetter(key, value) {
-		lens[key] = value
-		assert(lens[key] === value)
+		generator[key] = value
+		assert(generator[key] === value)
 	}
 
 	function testSetterWithInvalidInput(key, value) {
 		try {
-			lens[key] = value
+			generator[key] = value
 		} catch (err) {
 			return err
 		}
@@ -66,13 +66,13 @@ describe('lens sdk-object', ()=> {
 
 		describe('value', () => {
 			it('can set via proxy', () => {
-				lens.value.key = {}
-				assert(lens.value.hasOwnProperty('key'))
+				generator.value.key = {}
+				assert(generator.value.hasOwnProperty('key'))
 			})
 
 			it('will throw on invalid assignment', ()=> {
 				try {
-					lens.value.key = 45
+					generator.value.key = 45
 					assert(false)
 				} catch (err) {
 					assert(true)
@@ -83,13 +83,13 @@ describe('lens sdk-object', ()=> {
 
 	describe('variables', () => {
 		it('can set via proxy', () => {
-			lens.variables.variable1 = 'self'
-			assert(lens.variables.hasOwnProperty('variable1'))
+			generator.variables.variable1 = 'self'
+			assert(generator.variables.hasOwnProperty('variable1'))
 		})
 
 		it('will throw on invalid assignment', ()=> {
 			try {
-				lens.variables.key = 45
+				generator.variables.key = 45
 				assert(false)
 			} catch (err) {
 				assert(true)
@@ -100,7 +100,7 @@ describe('lens sdk-object', ()=> {
 
 	describe('schema', () => {
 		it('can set schema', ()=> {
-			testSetter('schema', Schema('test', {type: 'object'}))
+			testSetter('schema', Abstraction('test', {type: 'object'}))
 		})
 
 		it('can set reference', ()=> {

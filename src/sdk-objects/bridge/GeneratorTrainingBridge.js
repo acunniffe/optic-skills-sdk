@@ -3,7 +3,7 @@ import srequest from 'sync-request'
 import 'regenerator-runtime/runtime';
 import {preCheck} from "./OpticBridge";
 
-export function TrainLens(languageName, snippet) {
+export function TrainGenerator(languageName, snippet) {
 	preCheck()
 	const response = srequest('POST', 'http://localhost:30333/sdk-bridge/lens', {
 		json: {languageName, snippet}
