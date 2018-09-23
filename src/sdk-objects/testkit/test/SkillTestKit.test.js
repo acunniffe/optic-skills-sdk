@@ -8,17 +8,15 @@ export function skillFixture() {
 	const gen = js`
 req.query.name	
 `
-	gen.name = 'Parameter'
-	gen.id = 'express-parameter'
-
-	gen.value = {
+	.name('Parameter')
+	.id('express-parameter')
+	.abstraction({
 		in: tokenWithValue('query'),
 		name: tokenWithValue('name')
-	}
-
-	gen.variables = {
+	})
+    .variables({
 		req: 'self'
-	}
+	})
 
 	return Skill('aidan', 'test', '0.1.0', {
 		generators: [gen]
@@ -31,7 +29,7 @@ describe('skill test kit', () => {
 
 		const testKit = SkillTestKit(myskill)
 
-		testKit.testLens('express-parameter')
+		testKit.testGenerator('express-parameter')
 
 	})
 
@@ -40,7 +38,7 @@ describe('skill test kit', () => {
 
 		const testKit = SkillTestKit(mySkill)
 
-		assert.throws(() => testKit.testLens('not-real'))
+		assert.throws(() => testKit.testGenerator('not-real'))
 	})
 
 });

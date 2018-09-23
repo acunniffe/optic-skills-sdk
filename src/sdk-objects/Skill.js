@@ -5,8 +5,8 @@ export class Skill {
 		this._package = name
 		this._version = version
 		this._generators = generators.reduce((a, current) => {
-			if (current.subgenerators.length) {
-				const generators = a.concat(current.subgenerators)
+			if (current._subgenerators.length) {
+				const generators = a.concat(current._subgenerators)
 				generators.push(current)
 				return generators
 			} else {
@@ -32,7 +32,7 @@ export class Skill {
 			try {
 				return l.generatorDescription()
 			} catch (e) {
-				throw new Error(`Lens '${l.id}' did not compile: ${e.message}`)
+				throw new Error(`Generator '${l._id}' did not compile: ${e.message}`)
 			}
 		})
 		return { //going to continue using old names for a few more versions

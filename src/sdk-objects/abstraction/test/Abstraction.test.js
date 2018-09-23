@@ -1,7 +1,7 @@
 import assert from 'assert'
 import {Abstraction} from "../Abstraction";
 
-describe('schema sdk object', () => {
+describe('abstraction sdk object', () => {
 	it('will throw on invalid id', () => {
 		try { //for some reason assert.throws isn't working here.
 			Abstraction(123, {type: 'string'})

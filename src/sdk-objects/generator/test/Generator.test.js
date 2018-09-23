@@ -2,19 +2,19 @@ import assert from 'assert'
 import {Generator} from '../Generator'
 import {IncorrectArgumentType} from "../../../Errors";
 import {Snippet} from "../Snippet";
-import {Abstraction} from "../../..";
+import {Abstraction, tokenWithValue} from "../../..";
 
 describe('generator sdk-object', ()=> {
 	const generator = new Generator()
 
 	function testSetter(key, value) {
-		generator[key] = value
-		assert(generator[key] === value)
+		generator[key](value)
+		assert(generator['_'+key] === value)
 	}
 
 	function testSetterWithInvalidInput(key, value) {
 		try {
-			generator[key] = value
+			generator[key](value)
 		} catch (err) {
 			return err
 		}
@@ -64,22 +64,14 @@ describe('generator sdk-object', ()=> {
 
 	})
 
-		describe('value', () => {
-			it('can set via proxy', () => {
-				generator.value.key = {}
-				assert(generator.value.hasOwnProperty('key'))
+	describe('value', () => {
+		it('can set', () => {
+			generator.abstraction({
+				key: tokenWithValue('abc')
 			})
-
-			it('will throw on invalid assignment', ()=> {
-				try {
-					generator.value.key = 45
-					assert(false)
-				} catch (err) {
-					assert(true)
-				}
-			})
-
+			assert(generator._abstraction.hasOwnProperty('key'))
 		})
+	})
 
 	describe('variables', () => {
 		it('can set via proxy', () => {
@@ -98,17 +90,17 @@ describe('generator sdk-object', ()=> {
 
 	})
 
-	describe('schema', () => {
+	describe('abstraction schema', () => {
 		it('can set schema', ()=> {
-			testSetter('schema', Abstraction('test', {type: 'object'}))
+			testSetter('abstractionSchema', Abstraction('test', {type: 'object'}))
 		})
 
 		it('can set reference', ()=> {
-			testSetter('schema', 'one:two/schema')
+			testSetter('abstractionSchema', 'one:two/schema')
 		})
 
 		it('will throw on invalid input', ()=> {
-			const err = testSetterWithInvalidInput('snippet', 43)
+			const err = testSetterWithInvalidInput('abstractionSchema', 43)
 			assert(err.type === 'IncorrectArgumentType')
 		})
 

@@ -8,13 +8,13 @@ function validLensFixture() {
 	const gen = js`
 req.query.name	
 `
-	gen.name = 'Parameter'
-	gen.id = 'express-parameter'
+	gen.name('Parameter')
+	gen.id('express-parameter')
 
-	gen.value = {
+	gen.abstraction({
 		in: tokenWithValue('query'),
 		name: tokenWithValue('name')
-	}
+	})
 
 	return gen;
 }
@@ -24,10 +24,10 @@ function invalidLensFixture() {
 req.query.name	
 `
 
-	gen.value = {
+	gen.abstraction({
 		in: tokenWithValue('query'),
 		name: tokenWithValue('fake')
-	}
+	})
 
 	return gen;
 }
@@ -85,7 +85,7 @@ describe('generator training bridge', () => {
 
 	it('can process the finders in a lens', () => {
 		const lens = validLensFixture().resolve()
-		assert(equals(lens.value, {
+		assert(equals(lens._abstraction, {
 			"in": {
 				"type": "token",
 				"at": {"astType": "Identifier", "range": {"start": 4, "end": 9}}

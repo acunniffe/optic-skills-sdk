@@ -6,7 +6,7 @@ export const python3 = (string) => toLens(new Snippet(processSnippet(string), 'p
 
 function toLens(snippet) {
 	const lens = new Generator()
-	lens.snippet = snippet
+	lens.snippet(snippet)
 	return lens
 }
 

@@ -35,7 +35,7 @@ export function SkillTestKit(p) {
 
 	return {
 		skillConfiguration,
-		testLens: (id) => {
+		testGenerator: (id) => {
 			const lens = skillConfiguration.lenses[id]
 			if (lens) {
 				return lens
@@ -43,7 +43,7 @@ export function SkillTestKit(p) {
 				throw new GeneratorNotFoundInPackage(id)
 			}
 		},
-		testSchema: (id) => {
+		testAbstraction: (id) => {
 			const schema = skillConfiguration.schemas[id]
 			if (schema) {
 				return (schema)
@@ -51,7 +51,7 @@ export function SkillTestKit(p) {
 				throw new AbstractionNotFoundInPackage(id)
 			}
 		},
-		testTransformation: (id) => {
+		testRelationship: (id) => {
 			const transformations = skillConfiguration.transformations[id]
 			if (transformations) {
 				return transformations
