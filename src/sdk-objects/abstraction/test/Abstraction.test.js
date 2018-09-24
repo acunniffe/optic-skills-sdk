@@ -1,10 +1,10 @@
 import assert from 'assert'
-import {Schema} from "../Schema";
+import {Abstraction} from "../Abstraction";
 
-describe('schema sdk object', () => {
+describe('abstraction sdk object', () => {
 	it('will throw on invalid id', () => {
 		try { //for some reason assert.throws isn't working here.
-			Schema(123, {type: 'string'})
+			Abstraction(123, {type: 'string'})
 			assert(false)
 		} catch (e) {
 			assert(true)
@@ -13,7 +13,7 @@ describe('schema sdk object', () => {
 
 	it('will throw on an invalid schema', () => {
 		try {
-			Schema('abcdef', {type: 'abc'})
+			Abstraction('abcdef', {type: 'abc'})
 			assert(false)
 		} catch (e) {
 			assert(true)
@@ -21,9 +21,9 @@ describe('schema sdk object', () => {
 	})
 
 	it('works with valid schema', () => {
-		Schema('abcdefg', {type: 'string'})
+		Abstraction('abcdefg', {type: 'string'})
 
-		Schema('example', {
+		Abstraction('example', {
 			type: 'object',
 			properties: {
 				value1: {type: 'string'},

@@ -5,7 +5,7 @@ import {SkillTestKit} from "../SkillTestkit";
 
 describe('lens test kit w/ package context', () => {
 	const packageTestKit = SkillTestKit(skillFixture())
-	const expressParameterTestKit = packageTestKit.testLens('express-parameter')
+	const expressParameterTestKit = packageTestKit.testGenerator('express-parameter')
 
 	it('can test generator', () => {
 		const result = expressParameterTestKit.generate({in: 'query', name: 'abc'})

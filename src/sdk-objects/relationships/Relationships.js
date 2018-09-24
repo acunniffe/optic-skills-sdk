@@ -2,7 +2,7 @@ import {idRegex, validatePackageName} from "../../Regexes";
 import {IncorrectArgumentType} from "../../Errors";
 import {AskConfig} from "./AskConfig";
 
-export class TransformationBase {
+export class RelationshipsBase {
 	constructor(yields, id, input, output, script) {
 
 		if (typeof yields !== 'string') {
@@ -40,7 +40,7 @@ export class TransformationBase {
 		}
 	}
 
-	transformationDescription() {
+	relationshipsDescription() {
 		const obj = {
 			yields: this._yields,
 			id: this._id,
@@ -64,14 +64,14 @@ export class TransformationBase {
 	}
 }
 
-export function Transformation(yields, id, input, output, func) {
-	return new TransformationBase(yields, id, input, output, func)
+export function Relationship(yields, id, input, output, func) {
+	return new RelationshipsBase(yields, id, input, output, func)
 }
 
-export function MutationTransformation(yields, id, input, func) {
-	return new TransformationBase(yields, id, input, undefined, func)
+export function MutationRelationship(yields, id, input, func) {
+	return new RelationshipsBase(yields, id, input, undefined, func)
 }
 
-export function MultiTransformation(yields, id, input, func) {
-	return new TransformationBase(yields, id, input, undefined, func)
+export function MultiRelationship(yields, id, input, func) {
+	return new RelationshipsBase(yields, id, input, undefined, func)
 }

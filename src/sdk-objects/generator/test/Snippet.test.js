@@ -12,7 +12,7 @@ const input =
 js`
 import test from 'js'
 `
-		assert(input.snippet.language === 'es7')
+		assert(input._snippet.language === 'es7')
 	})
 
 })

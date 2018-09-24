@@ -1,41 +1,41 @@
 import assert from 'assert'
-import {TrainLens} from "../LensBridge";
+import {TrainGenerator} from "../GeneratorTrainingBridge";
 import equals from 'deep-equal'
-import {js} from "../../lens/Snippet";
-import {tokenWithValue} from "../../lens/Finders";
+import {js} from "../../generator/Snippet";
+import {tokenWithValue} from "../../generator/Finders";
 
 function validLensFixture() {
-	const lens = js`
+	const gen = js`
 req.query.name	
 `
-	lens.name = 'Parameter'
-	lens.id = 'express-parameter'
+	gen.name('Parameter')
+	gen.id('express-parameter')
 
-	lens.value = {
+	gen.abstraction({
 		in: tokenWithValue('query'),
 		name: tokenWithValue('name')
-	}
+	})
 
-	return lens;
+	return gen;
 }
 
 function invalidLensFixture() {
-	const lens = js`
+	const gen = js`
 req.query.name	
 `
 
-	lens.value = {
+	gen.abstraction({
 		in: tokenWithValue('query'),
 		name: tokenWithValue('fake')
-	}
+	})
 
-	return lens;
+	return gen;
 }
 
 
-describe('lens bridge', () => {
+describe('generator training bridge', () => {
 	it('can process a lens', () => {
-		const response = TrainLens('es7', 'const name = require("path")')
+		const response = TrainGenerator('es7', 'const name = require("path")')
 		assert(response.success)
 		assert(equals(response, {
 			"success": true,
@@ -85,7 +85,7 @@ describe('lens bridge', () => {
 
 	it('can process the finders in a lens', () => {
 		const lens = validLensFixture().resolve()
-		assert(equals(lens.value, {
+		assert(equals(lens._abstraction, {
 			"in": {
 				"type": "token",
 				"at": {"astType": "Identifier", "range": {"start": 4, "end": 9}}
@@ -104,7 +104,7 @@ describe('lens bridge', () => {
 	})
 
 	it('can generate a valid description', () => {
-		const a = validLensFixture().lensDescription()
+		const a = validLensFixture().generatorDescription()
 	})
 
 })

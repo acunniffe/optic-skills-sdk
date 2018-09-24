@@ -1,6 +1,6 @@
 import assert from 'assert'
-import {js} from "../lens/Snippet";
-import {tokenWithValue} from "../lens/Finders";
+import {js} from "../generator/Snippet";
+import {tokenWithValue} from "../generator/Finders";
 import {Skill} from "../../index";
 
 function validLensFixture() {

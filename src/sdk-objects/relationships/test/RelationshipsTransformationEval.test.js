@@ -1,12 +1,12 @@
 import assert from 'assert'
-import {testTransformation} from "../TransformationEval";
-import {Transformation} from "../Transformations";
+import {testTransformation} from "../RelationshipsTransformationEval";
+import {Relationship} from "../Relationships";
 
 describe('transformation eval', () => {
 
 	it('can run a valid transformation', () => {
 
-		const result = testTransformation(Transformation(
+		const result = testTransformation(Relationship(
 			'test',
 			'test-id',
 			'input:input',
@@ -22,7 +22,7 @@ describe('transformation eval', () => {
 
 	it('can use the helpers', () => {
 
-		const result = testTransformation(Transformation(
+		const result = testTransformation(Relationship(
 			'test',
 			'test-id',
 			'input:input',
@@ -46,7 +46,7 @@ describe('transformation eval', () => {
 
 	it('will return an error if failed', () => {
 
-		const result = testTransformation(Transformation(
+		const result = testTransformation(Relationship(
 			'test',
 			'test-id',
 			'input:input',
