@@ -38,6 +38,8 @@ export class RelationshipsBase {
 		} else {
 			throw new IncorrectArgumentType(ask, 'AskConfig')
 		}
+
+		return this
 	}
 
 	relationshipsDescription() {

@@ -18,13 +18,13 @@ describe('AskConfig', () => {
 
 	it('lens values can be set', () => {
 		const f = fixture()
-		f.forLens('key', 'desc', 'test:package/schema')
+		f.forGenerator('key', 'desc', 'test:package/schema')
 		assert(equals(f._fields[0], {type: 'lens', key: 'key', description: 'desc', withSchema: 'test:package/schema'}))
 	})
 
 	it('schema values can be set', () => {
 		const f = fixture()
-		f.forSchema('key', 'desc')
+		f.forAbstraction('key', 'desc')
 		assert(equals(f._fields[0], {type: 'schema', key: 'key', description: 'desc'}))
 	})
 
@@ -73,8 +73,8 @@ describe('AskConfig', () => {
 		it('can generate a valid schema from ask instance', () => {
 			const f = fixture()
 			f.forPrimitive('string', 'desc', 'string')
-			f.forLens('lens', 'to do X', 'test:package/schema')
-			f.forSchema('schema', 'for this purpose')
+			f.forGenerator('lens', 'to do X', 'test:package/schema')
+			f.forAbstraction('schema', 'for this purpose')
 			f.forPrimitive('X?', 'desc', 'boolean')
 			f.forObject('testObject', 'desc', 'test:package/schema')
 			f.forFile('testFile', 'desc')

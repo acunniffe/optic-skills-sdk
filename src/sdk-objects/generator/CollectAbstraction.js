@@ -5,7 +5,7 @@ class AbstractionComponent {
 	constructor(schemaOrLens, unique, toMap, inContainer) {
 		this.schemaRef = (() => {
 			if (schemaOrLens instanceof Generator) {
-				return schemaOrLens.schemaRef()
+				return schemaOrLens.abstractionSchemaRef()
 			} else if (schemaOrLens instanceof Abstraction) {
 				return schemaOrLens.id
 			} else {

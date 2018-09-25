@@ -11,7 +11,7 @@ export class AskConfig {
 		this._fields.push({type: 'primitive', key, description, dataType})
 	}
 
-	forLens(key, description, withSchema) {
+	forGenerator(key, description, withSchema) {
 
 		const isValid = typeof key === 'string' && typeof description === 'string' && typeof withSchema === 'string'
 
@@ -20,7 +20,7 @@ export class AskConfig {
 		this._fields.push({type: 'lens', key, description, withSchema})
 	}
 
-	forSchema(key, description) {
+	forAbstraction(key, description) {
 		const isValid = typeof key === 'string' && typeof description === 'string'
 
 		if (!isValid) throw new Error('Invalid schema ask definition')
