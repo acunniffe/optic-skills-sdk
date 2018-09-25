@@ -6,6 +6,8 @@ import {packagePath} from "./Constants";
 import fs from 'fs'
 import {Skill} from "../sdk-objects/Skill";
 import {publishPackage} from "./registry/Publish";
+import colors from 'colors'
+import exec from 'sync-exec'
 
 export function publishRemote(skill, cwd = process.cwd()) {
 
@@ -14,7 +16,7 @@ export function publishRemote(skill, cwd = process.cwd()) {
 	return skillPromise.then((result) => {
 		publishPackage(result)
 	}, (e) => {
-		console.error('Could not compile skill: '+ e.message)
+		console.error(colors.red('Could not compile skill: '+ e.message))
 	})
 }
 
@@ -32,13 +34,14 @@ export function publishLocal(skill, cwd = process.cwd()) {
 						reject(err)
 					}
 					console.log(`Published locally to ${withVersionPath}`)
+					exec("curl -X POST localhost:30333/trigger-refresh")
 					resolve()
 				});
 			});
 		})
 
 	}, (e) => {
-		console.error('Could not compile skill: '+ e.message)
+		console.error(colors.red('Could not compile skill: '+ e.message))
 	})
 }
 
@@ -90,7 +93,7 @@ export function findSkills(cwd = process.cwd()) {
 			}
 
 		} catch (e) {
-			console.error(e)
+			console.error(colors.red(e))
 		}
 	});
 
