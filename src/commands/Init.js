@@ -19,9 +19,9 @@ const skill = `
 import {Skill} from "optic-skills-sdk";
 
 export default Skill('${author}', '${name}', '${version}', {
-	schemas: [],
-	lenses: [],
-	transformations: []
+	abstractions: [],
+	generators: [],
+	relationships: []
 })`.trim()
 
 const test = `
