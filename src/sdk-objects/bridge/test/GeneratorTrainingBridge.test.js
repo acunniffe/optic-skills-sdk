@@ -2,7 +2,8 @@ import assert from 'assert'
 import {TrainGenerator} from "../GeneratorTrainingBridge";
 import equals from 'deep-equal'
 import {js} from "../../generator/Snippet";
-import {tokenWithValue} from "../../generator/Finders";
+import {literalWithValue, tokenWithValue} from "../../generator/Finders";
+import {assignFrom, collectUnique} from "../../..";
 
 function validLensFixture() {
 	const gen = js`
@@ -14,6 +15,20 @@ req.query.name
 	gen.abstraction({
 		in: tokenWithValue('query'),
 		name: tokenWithValue('name')
+	})
+
+	return gen;
+}
+
+function validLensWithAssignmentFixture() {
+	const gen = js`app.get('/hello', handler)`
+	gen.name('ref handler')
+	gen.id('ref-handler')
+
+	gen.abstraction({
+		url: literalWithValue('/hello'),
+		method: tokenWithValue('get'),
+		parameters: assignFrom('handler', 'parameters', {abstraction: 'optic:express/handler'}),
 	})
 
 	return gen;
@@ -92,6 +107,18 @@ describe('generator training bridge', () => {
 			},
 			"name": {"type": "token", "at": {"astType": "Identifier", "range": {"start": 10, "end": 14}}}
 		}))
+	})
+
+	it.only('can process the assignment finders in a lens', () => {
+		const lens = validLensWithAssignmentFixture().resolve()
+		console.log(lens._abstraction)
+		// assert(equals(lens._abstraction, {
+		// 	"in": {
+		// 		"type": "token",
+		// 		"at": {"astType": "Identifier", "range": {"start": 4, "end": 9}}
+		// 	},
+		// 	"name": {"type": "token", "at": {"astType": "Identifier", "range": {"start": 10, "end": 14}}}
+		// }))
 	})
 
 	it('will throw if finder is invalid', () => {

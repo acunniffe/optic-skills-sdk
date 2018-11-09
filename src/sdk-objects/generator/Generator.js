@@ -6,6 +6,7 @@ import {Snippet} from "./Snippet";
 import {TrainGenerator} from "../bridge/GeneratorTrainingBridge";
 import {AbstractionBase} from "../abstraction/Abstraction";
 import {Finder} from "./Finders";
+import {Assignment} from "./Assignments";
 
 
 const generatorJSONValidation = {
@@ -229,14 +230,21 @@ export class Generator {
 
 		const schemaFields = {}
 
-		//handle value assignment only when finder involved
-		const finderValues = Object.entries(this._abstraction).filter(i=> i[1] instanceof Finder)
+		//handle value when finder involved
+		const finderValues = Object.entries(this._abstraction).filter(i=> i[1] instanceof Finder || i[1] instanceof Assignment)
 		finderValues.forEach(fPair => {
+			const isAssignment = fPair[1] instanceof Assignment
+
 			const key = fPair[0]
-			const finder = fPair[1]
+			const finder = (isAssignment) ? fPair[1].tokenAt : fPair[1]
 			const finderResult = finder.evaluate(trainingResponse.trainingResults.candidates, this._id)
-			schemaFields[key] = {...finderResult.schemaField, ...finder.options.rules}
-			this._abstraction[key] = finderResult.stagedComponent.component
+			if (isAssignment) {
+				//@todo add something to the schema generation for these entires
+				this._abstraction[key].tokenAt = finderResult.stagedComponent.component
+			} else {
+				schemaFields[key] = {...finderResult.schemaField, ...finder.options.rules}
+				this._abstraction[key] = finderResult.stagedComponent.component
+			}
 		})
 
 		//build the schema
