@@ -109,16 +109,41 @@ describe('generator training bridge', () => {
 		}))
 	})
 
-	it.only('can process the assignment finders in a lens', () => {
+	it('can process the assignment finders in a lens', () => {
 		const lens = validLensWithAssignmentFixture().resolve()
-		console.log(lens._abstraction)
-		// assert(equals(lens._abstraction, {
-		// 	"in": {
-		// 		"type": "token",
-		// 		"at": {"astType": "Identifier", "range": {"start": 4, "end": 9}}
-		// 	},
-		// 	"name": {"type": "token", "at": {"astType": "Identifier", "range": {"start": 10, "end": 14}}}
-		// }))
+		assert(equals(lens._abstraction, {
+			"url": {
+				"type": "literal",
+				"at": {
+					"astType": "Literal",
+					"range": {
+						"start": 8,
+						"end": 16
+					}
+				}
+			},
+			"method": {
+				"type": "token",
+				"at": {
+					"astType": "Identifier",
+					"range": {
+						"start": 4,
+						"end": 7
+					}
+				}
+			},
+			"parameters": {
+				"tokenAt": {
+					"astType": "Identifier",
+					"range": {
+						"start": 18,
+						"end": 25
+					}
+				},
+				"keyPath": "parameters",
+				"abstraction": "optic:express/handler"
+			}
+		}))
 	})
 
 	it('will throw if finder is invalid', () => {

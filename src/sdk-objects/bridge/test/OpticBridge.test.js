@@ -12,8 +12,8 @@ describe('optic bridge', ()=> {
 			assert(!isInstalledOnPath('abcdefg'))
 		})
 		//
-		// it.only('can run precheck', ()=> {
-		// 	preCheck()
-		// })
+		it('can run precheck', ()=> {
+			preCheck()
+		})
 	})
 })

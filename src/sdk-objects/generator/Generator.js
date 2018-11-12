@@ -239,8 +239,8 @@ export class Generator {
 			const finder = (isAssignment) ? fPair[1].tokenAt : fPair[1]
 			const finderResult = finder.evaluate(trainingResponse.trainingResults.candidates, this._id)
 			if (isAssignment) {
-				//@todo add something to the schema generation for these entires
-				this._abstraction[key].tokenAt = finderResult.stagedComponent.component
+				//@todo add something to the schema generation for these entries
+				this._abstraction[key].tokenAt = finderResult.stagedComponent.component.at
 			} else {
 				schemaFields[key] = {...finderResult.schemaField, ...finder.options.rules}
 				this._abstraction[key] = finderResult.stagedComponent.component

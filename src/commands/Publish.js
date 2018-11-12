@@ -7,7 +7,8 @@ import fs from 'fs'
 import {Skill} from "../sdk-objects/Skill";
 import {publishPackage} from "./registry/Publish";
 import colors from 'colors'
-import exec from 'sync-exec'
+import process from 'child_process'
+import srequest from 'sync-request'
 
 export function publishRemote(skill, cwd = process.cwd()) {
 
@@ -34,7 +35,7 @@ export function publishLocal(skill, cwd = process.cwd()) {
 						reject(err)
 					}
 					console.log(`Published locally to ${withVersionPath}`)
-					exec("curl -X POST localhost:30333/trigger-refresh")
+					srequest('POST', 'http://localhost:30333/trigger-refresh')
 					resolve()
 				});
 			});
