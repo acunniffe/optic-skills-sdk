@@ -2,6 +2,7 @@
 export {js, scala, python3} from './sdk-objects/generator/Snippet';
 export {tokenWithValue, arrayWithValue, literalWithValue, objectWithValue} from './sdk-objects/generator/Finders';
 export {collect, collectUnique, mapToObject} from './sdk-objects/generator/CollectAbstraction';
+export {assignFrom} from './sdk-objects/generator/Assignments';
 
 //Relationships
 export {Relationship, MultiRelationship, MutationRelationship} from './sdk-objects/relationships/Relationships';

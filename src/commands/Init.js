@@ -17,8 +17,9 @@ export function initInDirectory(dir, author, name, version) {
 function defaultSkillFiles(author, name, version) {
 const skill = `
 import {Skill} from "optic-skills-sdk";
+import pJson from "../package"
 
-export default Skill('${author}', '${name}', '${version}', {
+export default Skill('${author}', pJson.name, pJson.version, {
 	abstractions: [],
 	generators: [],
 	relationships: []
@@ -47,7 +48,7 @@ const packageJson = JSON.stringify({
 		"@babel/cli": "^7.0.0-beta.49",
 		"@babel/core": "^7.0.0-beta.49",
 		"@babel/preset-env": "^7.0.0-beta.49",
-		"mocha": "^3.4.2"
+		"mocha": "^5.0.2"
 	},
 	"dependencies": {
 		"optic-skills-sdk": pJson.version

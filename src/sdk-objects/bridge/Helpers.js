@@ -1,9 +1,13 @@
-import exec from "sync-exec";
+import process from 'child_process'
+import niceTry from 'nice-try'
 
 export function isInstalledOnPath(programName) {
-	const result = exec(`which ${programName}`)
-	const trimmedOut = result.stdout.trim()
-	if (result.status === 0 && trimmedOut) {
-		return trimmedOut
+	const result = niceTry(() => process.execSync(`which ${programName}`))
+
+	if (result) {
+		const trimmedOut = result.toString().trim()
+		if (result && trimmedOut) {
+			return trimmedOut
+		}
 	}
 }

@@ -1,16 +1,20 @@
-import exec from 'sync-exec'
 import niceTry from 'nice-try'
 import {isInstalledOnPath} from "./Helpers";
 import packageJson from '../../../package'
+import process from 'child_process'
 import {OpticNotRunning, OpticNotInstalled, OpticVersionNotSupported} from "../../Errors";
+import srequest from 'sync-request'
 
 export const opticIsInstalled = isInstalledOnPath('optic')
 export function opticServerIsRunning(versionVerify) {
-	const result = exec(`curl localhost:30333/sdk-version?v=${versionVerify}`)
+
+	const response = srequest('GET', 'http://localhost:30333/sdk-version', {
+		qs: {'v': versionVerify}
+	})
 
 	return {
-		isRunning: result.status === 0,
-		support: niceTry(()=> JSON.parse(result.stdout))
+		isRunning: !response.isError(),
+		support: niceTry(()=> JSON.parse(response.getBody('utf8')))
 	}
 }
 
