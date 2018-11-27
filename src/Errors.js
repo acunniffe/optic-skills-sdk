@@ -39,7 +39,7 @@ export function OpticNotRunning() {
 	return {
 		level: 'error',
 		type: 'OpticNotRunning',
-		message: `Optic is not running. Run 'optic startserver'`,
+		message: `Optic is not running. Run 'optic start'`,
 		isError: true
 	}
 }

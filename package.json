@@ -1,6 +1,6 @@
 {
   "name": "optic-skills-sdk",
-  "version": "0.0.1",
+  "version": "0.0.3",
   "description": "",
   "main": "./lib/index.js",
   "scripts": {
@@ -16,7 +16,7 @@
     "@babel/core": "^7.0.0-beta.49",
     "@babel/plugin-transform-async-to-generator": "^7.0.0",
     "@babel/preset-env": "^7.0.0-beta.49",
-    "mocha": "^3.4.2"
+    "mocha": "^5.2.0"
   },
   "dependencies": {
     "ajv": "^5.2.2",
@@ -35,7 +35,6 @@
     "request": "^2.88.0",
     "request-promise": "^4.2.2",
     "safe-eval": "^0.4.1",
-    "sync-exec": "^0.6.2",
     "sync-request": "^6.0.0"
   }
 }

@@ -6,6 +6,7 @@ import {Snippet} from "./Snippet";
 import {TrainGenerator} from "../bridge/GeneratorTrainingBridge";
 import {AbstractionBase} from "../abstraction/Abstraction";
 import {Finder} from "./Finders";
+import {Assignment} from "./Assignments";
 
 
 const generatorJSONValidation = {
@@ -95,9 +96,13 @@ export class Generator {
 		this._priority = 1;
 		this._internal = false;
 		this._subgenerators = [];
+
+		this._resolved = false
 	}
 
 	name(name) {
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (typeof name === 'string') {
 			this._name = name
 		} else {
@@ -108,6 +113,8 @@ export class Generator {
 	}
 
 	id(id) {
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (typeof id === 'string' && validatePackageName(id)) {
 			this._id = id
 		} else {
@@ -118,6 +125,8 @@ export class Generator {
 	}
 
 	snippet(snippet) {
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (typeof snippet === 'object' && snippet instanceof Snippet) {
 			this._snippet = snippet
 		} else {
@@ -128,6 +137,8 @@ export class Generator {
 	}
 
 	abstraction(value) {
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (typeof value === 'object') {
 			this._abstraction = value
 		} else {
@@ -138,6 +149,8 @@ export class Generator {
 	}
 
 	variables(value) {
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (typeof value === 'object') {
 			this._variables = value
 		} else {
@@ -148,6 +161,9 @@ export class Generator {
 	}
 
 	containers(value) {
+
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (typeof value === 'object') {
 			this._containers = value
 		} else {
@@ -167,6 +183,9 @@ export class Generator {
 	}
 
 	abstractionSchema(abstractionSchema) {
+
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (abstractionSchema instanceof AbstractionBase) {
 			this._abstractionSchema = abstractionSchema
 		} else if (typeof abstractionSchema === 'string') { //@todo and is valid ref
@@ -182,6 +201,10 @@ export class Generator {
 	}
 
 	initialValue(initialValue) {
+
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
+
 		if (typeof initialValue === 'object') {
 			this._initialValue = initialValue
 		} else {
@@ -192,6 +215,10 @@ export class Generator {
 	}
 
 	priority(priority) {
+
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
+
 		if (typeof priority === 'number') {
 			this._priority = priority
 		} else {
@@ -202,6 +229,9 @@ export class Generator {
 	}
 
 	internal(internal) {
+
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (typeof internal === 'boolean') {
 			this._internal = internal
 		} else {
@@ -212,6 +242,9 @@ export class Generator {
 	}
 
 	subgenerators(array) {
+
+		if (this._resolved) throw new Error("Generator can not be modified after being compiled")
+
 		if (Array.isArray(array) && array.every((l) => l instanceof Generator)) {
 			array.forEach(l => l.internal = true)
 			this._subgenerators = array
@@ -224,19 +257,30 @@ export class Generator {
 
 	//processing code
 	resolve() {
+
+		if (this._resolved) { //never compile twice.
+			return this;
+		}
+
 		const trainingResponse = TrainGenerator(this._snippet.language, this._snippet.block)
 
-
 		const schemaFields = {}
+		//handle value when finder involved
+		const finderValues = Object.entries(this._abstraction).filter(i=> i[1] instanceof Finder || i[1] instanceof Assignment)
 
-		//handle value assignment only when finder involved
-		const finderValues = Object.entries(this._abstraction).filter(i=> i[1] instanceof Finder)
 		finderValues.forEach(fPair => {
+			const isAssignment = fPair[1] instanceof Assignment
+
 			const key = fPair[0]
-			const finder = fPair[1]
+			const finder = (isAssignment) ? fPair[1].tokenAt : fPair[1]
 			const finderResult = finder.evaluate(trainingResponse.trainingResults.candidates, this._id)
-			schemaFields[key] = {...finderResult.schemaField, ...finder.options.rules}
-			this._abstraction[key] = finderResult.stagedComponent.component
+			if (isAssignment) {
+				//@todo add something to the schema generation for these entries
+				this._abstraction[key].tokenAt = finderResult.stagedComponent.component.at
+			} else {
+				schemaFields[key] = {...finderResult.schemaField, ...finder.options.rules}
+				this._abstraction[key] = finderResult.stagedComponent.component
+			}
 		})
 
 		//build the schema
@@ -252,6 +296,7 @@ export class Generator {
 			)
 		}
 
+		this._resolved = true
 		return this
 	}
 
