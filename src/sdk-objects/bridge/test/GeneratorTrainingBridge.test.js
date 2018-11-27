@@ -111,6 +111,7 @@ describe('generator training bridge', () => {
 
 	it('can process the assignment finders in a lens', () => {
 		const lens = validLensWithAssignmentFixture().resolve()
+		console.log(lens._abstraction)
 		assert(equals(lens._abstraction, {
 			"url": {
 				"type": "literal",
