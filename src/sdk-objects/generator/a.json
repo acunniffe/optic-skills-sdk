@@ -1,0 +1,27 @@
+{
+  "complexcomputed": {
+    "fieldProcessor": "concat-strings",
+    "subcomponents": [
+      {
+        "tokenAt": {
+          "astType": "Identifier",
+          "range": {
+            "start": 0,
+            "end": 7
+          }
+        },
+        "keyPath": "computed"
+      },
+      {
+        "type": "literal",
+        "at": {
+          "astType": "Literal",
+          "range": {
+            "start": 15,
+            "end": 23
+          }
+        }
+      }
+    ]
+  }
+}

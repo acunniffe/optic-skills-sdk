@@ -30,25 +30,23 @@ export class Finder {
 
 		//@todo validate options
 
-		this._type = type
-		this._value = value
-		this._options = options
+		this.type = type
+		this.value = value
+		this.options = options
 
-	}
-
-	get options() {
-		return this._options
 	}
 
 	evaluate(candidates, lensId) {
 		const found = candidates.filter(i=> {
-			return i.stagedComponent.component.type === this._type &&
-				(equals(i.value, this._value))
-		})[this._options.occurrence]
+			return i.stagedComponent.component.type === this.type &&
+				(equals(i.value, this.value))
+		})[this.options.occurrence]
 		if (found) {
 			return found
 		} else {
-			throw FinderFailedOnCompile(this._type, this._value)
+			console.log(this)
+			console.log(JSON.stringify(candidates))
+			throw FinderFailedOnCompile(this.type, this.value)
 		}
 	}
 
