@@ -14,6 +14,8 @@ import {types} from 'optic-js-common'
 export const RawCode = types.RawCode
 export const Token = types.Token
 
+//Computed Fields
+export {concatStrings, concatArrays} from "./sdk-objects/generator/ComputedField";
 
 //Skills
 export {SkillsFactory as Skill} from './sdk-objects/Skill';

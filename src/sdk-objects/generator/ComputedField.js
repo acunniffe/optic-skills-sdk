@@ -9,9 +9,7 @@ export class ComputedField {
 	constructor(fieldProcessor, subcomponents) {
 		this.fieldProcessor = fieldProcessor
 		this.subcomponents = subcomponents
-
 		this.enforceUniqueArguments = false
-
 		this.enforceUnique = this.enforceUnique.bind(this)
 	}
 

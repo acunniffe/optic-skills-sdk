@@ -8,6 +8,7 @@ import {AbstractionBase} from "../abstraction/Abstraction";
 import {Finder} from "./Finders";
 import {Assignment} from "./Assignments";
 import {ComputedField} from "./ComputedField";
+import {AbstractionComponent} from "./CollectAbstraction";
 
 
 const generatorJSONValidation = {
@@ -288,7 +289,12 @@ export class Generator {
 			const key = fPair[0]
 			const {fieldProcessor, subcomponents} = fPair[1]
 			//disallow recursion for now
-			const processedComponents = subcomponents.filter(i=> i instanceof Finder || i instanceof Assignment).map(component => {
+			const processedComponents = subcomponents.filter(i=> i instanceof Finder || i instanceof Assignment || i instanceof AbstractionComponent).map(component => {
+
+				if (component instanceof AbstractionComponent) {
+					return component
+				}
+
 				const isAssignment = component instanceof Assignment
 				const finder = (isAssignment) ? component.tokenAt : component
 				const finderResult = finder.evaluate(trainingResponse.trainingResults.candidates, this._id)
