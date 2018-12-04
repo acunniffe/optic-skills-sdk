@@ -53,49 +53,85 @@ describe('generator training bridge', () => {
 		const response = TrainGenerator('es7', 'const name = require("path")')
 		assert(response.success)
 		assert(equals(response, {
-			"success": true,
-			"trainingResults": {
-				"candidates": [{
-					"value": "name",
-					"previewString": "...const <b>name</b> = require...",
-					"stagedComponent": {
-						"propertyPath": [],
-						"component": {
-							"type": "token",
-							"at": {"astType": "Identifier", "range": {"start": 6, "end": 10}}
+				"success": true,
+				"trainingResults": {
+					"candidates": [{
+						"value": "name",
+						"previewString": "...const <b>name</b> = require...",
+						"stagedComponent": {
+							"propertyPath": [],
+							"component": {
+								"type": "token",
+								"at": {
+									"astType": "Identifier",
+									"range": {
+										"start": 6,
+										"end": 10
+									}
+								}
+							},
+							"isHidden": false
+						},
+						"schemaField": {
+							"type": "string"
 						}
-					},
-					"schemaField": {"type": "string"}
-				}, {
-					"value": "require",
-					"previewString": "...st name = <b>require</b>(&quot;path&quot;)...",
-					"stagedComponent": {
-						"propertyPath": [],
-						"component": {
-							"type": "token",
-							"at": {"astType": "Identifier", "range": {"start": 13, "end": 20}}
+					}, {
+						"value": "require",
+						"previewString": "...st name = <b>require</b>(&quot;path&quot;)...",
+						"stagedComponent": {
+							"propertyPath": [],
+							"component": {
+								"type": "token",
+								"at": {
+									"astType": "Identifier",
+									"range": {
+										"start": 13,
+										"end": 20
+									}
+								}
+							},
+							"isHidden": false
+						},
+						"schemaField": {
+							"type": "string"
 						}
-					},
-					"schemaField": {"type": "string"}
-				}, {
-					"value": "path",
-					"previewString": "...= require(<b>&quot;path&quot;</b>)...",
-					"stagedComponent": {
-						"propertyPath": [],
-						"component": {
-							"type": "literal",
-							"at": {"astType": "Literal", "range": {"start": 21, "end": 27}}
+					}, {
+						"value": "path",
+						"previewString": "...= require(<b>&quot;path&quot;</b>)...",
+						"stagedComponent": {
+							"propertyPath": [],
+							"component": {
+								"type": "literal",
+								"at": {
+									"astType": "Literal",
+									"range": {
+										"start": 21,
+										"end": 27
+									}
+								}
+							},
+							"isHidden": false
+						},
+						"schemaField": {
+							"type": "string"
 						}
-					},
-					"schemaField": {"type": "string"}
-				}],
-				"containerCandidates": [],
-				"variableCandidates": [{
-					"name": "require",
-					"occurrences": [{"start": 13, "end": 20}]
-				}, {"name": "name", "occurrences": [{"start": 6, "end": 10}]}]
-			}
-		}))
+					}],
+					"containerCandidates": [],
+					"variableCandidates": [{
+						"name": "require",
+						"occurrences": [{
+							"start": 13,
+							"end": 20
+						}]
+					}, {
+						"name": "name",
+						"occurrences": [{
+							"start": 6,
+							"end": 10
+						}]
+					}]
+				}
+			}))
 	})
 
 	it('can process the finders in a lens', () => {

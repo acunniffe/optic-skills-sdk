@@ -1,7 +1,7 @@
 import {Generator} from "./Generator";
 import {Abstraction} from "../..";
 
-class AbstractionComponent {
+export class AbstractionComponent {
 	constructor(schemaOrLens, unique, toMap, inContainer) {
 		this.schemaRef = (() => {
 			if (schemaOrLens instanceof Generator) {

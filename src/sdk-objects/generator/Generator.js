@@ -7,6 +7,7 @@ import {TrainGenerator} from "../bridge/GeneratorTrainingBridge";
 import {AbstractionBase} from "../abstraction/Abstraction";
 import {Finder} from "./Finders";
 import {Assignment} from "./Assignments";
+import {ComputedField} from "./ComputedField";
 
 
 const generatorJSONValidation = {
@@ -282,6 +283,37 @@ export class Generator {
 				this._abstraction[key] = finderResult.stagedComponent.component
 			}
 		})
+
+		Object.entries(this._abstraction).filter(i=> i[1] instanceof ComputedField).forEach(fPair => {
+			const key = fPair[0]
+			const {fieldProcessor, subcomponents} = fPair[1]
+			//disallow recursion for now
+			const processedComponents = subcomponents.filter(i=> i instanceof Finder || i instanceof Assignment).map(component => {
+				const isAssignment = component instanceof Assignment
+				const finder = (isAssignment) ? component.tokenAt : component
+				const finderResult = finder.evaluate(trainingResponse.trainingResults.candidates, this._id)
+
+				if (isAssignment) {
+					return {...component, tokenAt: finderResult.stagedComponent.component.at}
+				} else {
+					return finderResult.stagedComponent.component
+				}
+			})
+
+
+			fPair[1].subcomponents = processedComponents
+
+			switch (fieldProcessor) {
+				case 'ConcatStrings':
+					schemaFields[key] = {type: 'string'}
+					break;
+				case 'ConcatArrays':
+					schemaFields[key] = {type: 'array'}
+					break;
+			}
+
+		})
+
 
 		//build the schema
 		if (!this._abstractionSchema) {
