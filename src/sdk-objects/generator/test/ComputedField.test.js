@@ -22,56 +22,42 @@ describe('Computed Field constructors', () => {
 
 	it('work with list of finders', () => {
 		const computedField = concatStrings(tokenWithValue('get'), tokenWithValue('from'))
-		assert.deepEqual(computedField, {
+		assert.deepEqual(JSON.parse(JSON.stringify(computedField)), {
 				"fieldProcessor": "concat-strings",
 				"subcomponents": [{
 					"type": "token",
 					"value": "get",
 					"options": {"occurrence": 0, "rules": {}}
-				}, {"type": "token", "value": "from", "options": {"occurrence": 0, "rules": {}}}]
+				}, {"type": "token", "value": "from", "options": {"occurrence": 0, "rules": {}}}],
+				"enforceUniqueArguments": false
 			}
 		)
 	})
 
 	it('can resolve a generator with computed fields', () => {
-		assert.deepEqual(valid().resolve()._abstraction.computed, {
+		assert.deepEqual(JSON.parse(JSON.stringify(valid().resolve()._abstraction.computed)), {
 			"fieldProcessor": "concat-strings",
 			"subcomponents": [{
 				"type": "token",
-				"at": {
-					"astType": "Identifier",
-					"range": {
-						"start": 4,
-						"end": 9
-					}
-				}
-			}, {
-				"type": "token",
-				"at": {
-					"astType": "Identifier",
-					"range": {
-						"start": 10,
-						"end": 14
-					}
-				}
-			}]
+				"at": {"astType": "Identifier", "range": {"start": 4, "end": 9}}
+			}, {"type": "token", "at": {"astType": "Identifier", "range": {"start": 10, "end": 14}}}],
+			"enforceUniqueArguments": false
 		})
 
 	})
 
+	const myskill = skillFixture()
+	const testKit = SkillTestKit(myskill)
+
 	it('can parse a code with a computed field', () => {
-		const myskill = skillFixture()
-		const testKit = SkillTestKit(myskill)
 		const computedTestKit = testKit.testGenerator('computed-example')
 
 		const result = computedTestKit.parse('req.abc.defg')
 
-		assert.deepEqual(result.value, {computed: 'abcdefg', _variables: {} })
+		assert.deepEqual(result.value, {computed: 'abcdefg', _variables: {}})
 	})
 
 	it('can parse a code with a complex computed field', () => {
-		const myskill = skillFixture()
-		const testKit = SkillTestKit(myskill)
 		const computedTestKit = testKit.testGenerator('complex-computed-example')
 
 		const result = computedTestKit.parse(`
@@ -81,7 +67,7 @@ describe('Computed Field constructors', () => {
 		example.append('myString')
 		
 		`)
-		assert.deepEqual(result.value, { complexcomputed: 'abcdefgmyString', _variables: {} })
+		assert.deepEqual(result.value, {complexcomputed: 'abcdefgmyString', _variables: {}})
 	})
 
 })
